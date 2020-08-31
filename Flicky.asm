@@ -231,17 +231,32 @@ _DATA_2A_:
 	.db $02 $80 $82 $81 $0E $82 $FF $83 $03 $84 $76 $85 $03 $86
     
     
-        
-_stevepro:
-    jp _stevepro
+
     
 _LABEL_70_7:
     ld b, $0A
     call _LABEL_1B3_8
     call _LABEL_1C_11
     call _LABEL_1BF_13
-    
+_LABEL_7B_:	
+    di
+    call _LABEL_C5_21
+    call _LABEL_1BF_13
+    ;call _LABEL_254D_22
+    ;call _LABEL_23FE_27
+    ;call _LABEL_BC_36
+    ld a, $01
+    ld (_RAM_C0E1_), a
+    ld b, $A0
+_LABEL_92_170:
 
+
+
+        
+_stevepro:
+    jp _stevepro
+    
+    
 _LABEL_1B3_8:
     ld de, $FFFF
 _LABEL_1B6_10:	
@@ -252,6 +267,13 @@ _LABEL_1B9_9:
     djnz _LABEL_1B6_10
     ret
 
+_LABEL_C5_21:
+    ld a, $82
+    out (Port_VDPAddress), a
+    ld a, $81
+    out (Port_VDPAddress), a
+    ret
+    
 _LABEL_7395_2:	
     ld hl, _DATA_739F_
     ld c, Port_PSG
@@ -378,4 +400,25 @@ _LABEL_165_18:
     ld de, _RAM_C1A1_
     ld bc, $0080
     call _LABEL_106_19
+    ret
+    
+    
+_LABEL_1BF_13:
+    ld hl, $3800
+    ld bc, $0300
+    ld a, $20
+    call _LABEL_E5_14
+    ld hl, _RAM_C0EC_
+    bit 5, (hl)
+    ret nz
+    ld de, _RAM_C1A1_
+    ld b, $20
+_LABEL_1D5_17:
+    push bc
+    ld hl, _DATA_1E5_
+    ld bc, $0004
+    ldir
+    pop bc
+    djnz _LABEL_1D5_17
+    call _LABEL_165_18
     ret
