@@ -403,22 +403,3 @@ _LABEL_165_18:
     ret
     
     
-_LABEL_1BF_13:
-    ld hl, $3800
-    ld bc, $0300
-    ld a, $20
-    call _LABEL_E5_14
-    ld hl, _RAM_C0EC_
-    bit 5, (hl)
-    ret nz
-    ld de, _RAM_C1A1_
-    ld b, $20
-_LABEL_1D5_17:
-    push bc
-    ld hl, _DATA_1E5_
-    ld bc, $0004
-    ldir
-    pop bc
-    djnz _LABEL_1D5_17
-    call _LABEL_165_18
-    ret
