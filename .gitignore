@@ -1,4 +1,5 @@
 # Prerequisites
+*.sms*
 *.d
 
 # Object files
