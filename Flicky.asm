@@ -316,6 +316,54 @@ _LABEL_DD_112:
     pop af
     out (Port_VDPData), a
     ret
+
+_LABEL_E5_14:
+    push bc
+    push af
+    call _LABEL_F6_15
+_LABEL_EA_16:
+    pop af
+    out (Port_VDPData), a
+    push af
+    dec bc
+    ld a, b
+    or c
+    jr nz, _LABEL_EA_16
+    pop af
+    pop bc
+    ret
+    
+_LABEL_F6_15:
+    ld a, l
+    out (Port_VDPAddress), a
+    ld a, h
+    or $40
+    out (Port_VDPAddress), a
+    ret
+    
+_LABEL_FF_97:	
+    ld a, l
+    out (Port_VDPAddress), a
+    ld a, h
+    out (Port_VDPAddress), a
+    ret
+
+_LABEL_106_19:
+    di
+    call _LABEL_F6_15
+    push de
+    push bc
+_LABEL_10C_20:
+    ld a, (de)
+    out (Port_VDPData), a
+    inc de
+    dec bc
+    ld a, c
+    or b
+    jr nz, _LABEL_10C_20
+    pop bc
+    pop de
+    ret
     
 _stevepro:
     jp _stevepro
@@ -332,12 +380,6 @@ _LABEL_1B9_9:
     djnz _LABEL_1B6_10
     ret
 
-_LABEL_C5_21:
-    ld a, $82
-    out (Port_VDPAddress), a
-    ld a, $81
-    out (Port_VDPAddress), a
-    ret
     
     
 _LABEL_209_38:
@@ -646,8 +688,7 @@ _LABEL_2421_165:
     ret
 
  
- _LABEL_CE_28:
- 
+
     
 _LABEL_7395_2:	
     ld hl, _DATA_739F_
@@ -695,31 +736,7 @@ _LABEL_28A4_6:
     out (_PORT_DE_), a
     ret
     
-_LABEL_E5_14:
-    push bc
-    push af
-    call _LABEL_F6_15
-_LABEL_EA_16:
-    pop af
-    out (Port_VDPData), a
-    push af
-    dec bc
-    ld a, b
-    or c
-    jr nz, _LABEL_EA_16
-    pop af
-    pop bc
-    ret
-    
-_LABEL_F6_15:
-    ld a, l
-    out (Port_VDPAddress), a
-    ld a, h
-    or $40
-    out (Port_VDPAddress), a
-    ret
-    
-_LABEL_FF_97:	
+
     ld a, l
     out (Port_VDPAddress), a
     ld a, h
@@ -748,12 +765,7 @@ _LABEL_1D5_17:
     ret
     
 
-_LABEL_106_19:
-    di
-    call _LABEL_F6_15
-    push de
-    push bc
-_LABEL_10C_20:
+
     ld a, (de)
     out (Port_VDPData), a
     inc de
