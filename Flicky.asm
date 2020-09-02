@@ -290,6 +290,79 @@ _LABEL_C5_21:
     out (Port_VDPAddress), a
     ret
     
+    
+_LABEL_209_38:
+    di
+    push ix
+    push iy
+    push af
+    push bc
+    push de
+    push hl
+    ex af, af'
+    push af
+    exx
+    push bc
+    push de
+    push hl
+    in a, (Port_VDPStatus)
+    ld a, (_RAM_C0CA_)
+    inc a
+    cp $50
+    jr nc, _LABEL_224_39
+    ; Data from 222 to 223 (2 bytes)
+	.db $3E $F0    
+    
+_LABEL_224_39:
+    ld (_RAM_C0CA_), a
+    ld a, (_RAM_C0C9_)
+    or a
+    jr z, _LABEL_233_40
+    ; Data from 22D to 232 (6 bytes)
+	.db $CD $90 $02 $C3 $7F $02
+    
+_LABEL_233_40:
+    call _LABEL_27D9_43
+    ld a, (_RAM_C0E1_)
+    or a
+    call nz, _LABEL_495_58
+    call _LABEL_2012_61
+    call _LABEL_1E1F_62
+    ld a, (_RAM_C0EC_)
+    rlca
+    jr nc, _LABEL_26B_79
+    ; Data from 249 to 26A (34 bytes)
+	.db $07 $38 $1F $21 $07 $C1 $34 $21 $51 $C1 $34 $CD $A6 $06 $CD $8A
+	.db $07 $3A $02 $C1 $B7 $C2 $6B $02 $CD $73 $01 $CD $6E $07 $21 $0A
+	.db $C1 $34
+    
+_LABEL_26B_79:
+    ld hl, _RAM_C108_
+    inc (hl)
+    inc hl
+    inc (hl)
+    ld a, (_RAM_C0E1_)
+    or a
+    jr nz, _LABEL_27A_128
+    call _LABEL_6F22_129
+_LABEL_27A_128:    
+    ld a, $01
+    ld (_RAM_C102_), a
+    pop hl
+    pop de
+    pop bc
+    exx
+    pop af
+    ex af, af'
+    pop hl
+    pop de
+    pop bc
+    pop af
+    pop iy
+    pop ix
+    ei
+    reti
+    
 _LABEL_23FE_27:
     ld bc, $0d87
     call _LABEL_CE_28
@@ -1112,7 +1185,6 @@ _DATA_3FCF_:
     
 .BANK 1 SLOT 1	
 .ORG $0000	
-
 
 ; Data from 4000 to 400E (15 bytes)
 	.db $0C $30 $C0 $C0 $F0 $FC $FF $C0 $30 $0C $03 $03 $0F $3F $FF
