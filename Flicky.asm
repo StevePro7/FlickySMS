@@ -364,14 +364,36 @@ _LABEL_10C_20:
     pop bc
     pop de
     ret
-  
-  
-    
-;_stevepro:
-    ;jp _stevepro
-  
-  
-    
+
+_LABEL_118_124:
+    di
+    push hl
+    call _LABEL_F6_15
+    push de
+    push bc
+    ld hl, _RAM_C0EB_
+_LABEL_122_127:
+    ld a, (de)
+    and $0F
+    jr z, _LABEL_12A_125
+    ld a, (de)
+    jr _LABEL_12C_126
+
+_LABEL_12A_125:
+    ld a, (de)
+    or (hl)
+_LABEL_12C_126:
+    out (Port_VDPData), a
+    inc de
+    dec bc
+    ld a, c
+    or b
+    jr nz, _LABEL_122_127
+    pop bc
+    pop de
+    pop hl
+    ret
+
 _LABEL_1B3_8:
     ld de, $FFFF
 _LABEL_1B6_10:	
@@ -401,8 +423,10 @@ _LABEL_1D5_17:
     djnz _LABEL_1D5_17
     call _LABEL_165_18
     ret
-    
-    
+
+; Data from 1E5 to 1E8 (4 bytes)	
+_DATA_1E5_:	
+	.db $F0 $00 $00 $00
     
 _LABEL_209_38:
     di
