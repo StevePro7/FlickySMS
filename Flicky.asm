@@ -364,9 +364,11 @@ _LABEL_10C_20:
     pop bc
     pop de
     ret
+  
+  
     
-_stevepro:
-    jp _stevepro
+;_stevepro:
+    ;jp _stevepro
   
   
     
@@ -380,6 +382,26 @@ _LABEL_1B9_9:
     djnz _LABEL_1B6_10
     ret
 
+_LABEL_1BF_13:
+    ld hl, $3800    
+    ld bc, $0300
+    ld a, $20
+    call _LABEL_E5_14
+    ld hl, _RAM_C0EC_
+    bit 5, (hl)
+    ret nz
+    ld de, _RAM_C1A1_
+    ld b, $20
+_LABEL_1D5_17:
+    push bc
+    ld hl, _DATA_1E5_
+    ld bc, $0004
+    ldir
+    pop bc
+    djnz _LABEL_1D5_17
+    call _LABEL_165_18
+    ret
+    
     
     
 _LABEL_209_38:
@@ -744,38 +766,11 @@ _LABEL_28A4_6:
     ret
         
     
-_LABEL_1BF_13:
-    ld hl, $3800    
-    ld bc, $0300
-    ld a, $20
-    call _LABEL_E5_14
-    ld hl, _RAM_C0EC_
-    bit 5, (hl)
-    ret nz
-    ld de, _RAM_C1A1_
-    ld b, $20
-_LABEL_1D5_17:
-    push bc
-    ld hl, _DATA_1E5_
-    ld bc, $0004
-    ldir
-    pop bc
-    djnz _LABEL_1D5_17
-    call _LABEL_165_18
-    ret
+
     
 
 
-    ld a, (de)
-    out (Port_VDPData), a
-    inc de
-    dec bc
-    ld a, c
-    or b
-    jr nz, _LABEL_10C_20
-    pop bc
-    pop de
-    ret
+
     
 _LABEL_165_18:	
     di
@@ -784,7 +779,7 @@ _LABEL_165_18:
     ld bc, $0080
     call _LABEL_106_19
     ret
-    
+
     
 ; Data from 1E5 to 1E8 (4 bytes)	
 _DATA_1E5_:	
@@ -813,6 +808,10 @@ _LABEL_202_191:
     retn
 
 
+;empty labels
+_LABEL_2AE_169:
+_LABEL_45E_171:
+_LABEL_4BA_162:	
 
 _LABEL_495_58:
     ld a, (_RAM_C101_)
