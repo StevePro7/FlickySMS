@@ -394,6 +394,98 @@ _LABEL_12C_126:
     pop hl
     ret
 
+_LABEL_138_32:
+    di
+    call _LABEL_F6_15
+    push de
+    push bc
+_LABEL_13E_33:
+    ld a, (de)
+    out (Port_VDPData), a
+    dec bc
+    ld a, c
+    or b
+    jr nz, _LABEL_13E_33
+    pop bc
+    pop de
+    ret
+    
+_LABEL_149_166:	
+    di 
+    push hl
+    push de
+    push bc
+    ld a, c
+    ld (_RAM_C10B_), a
+_LABEL_151_167:	
+    ld a, (de)
+    call _LABEL_DD_112
+    push de
+    ld de, $0008
+    add hl, de
+    pop de
+    dec bc
+    ld a, c
+    or b
+    jr nz, _LABEL_151_167
+    pop bc
+    pop de
+    pop hl
+    ei
+    ret
+
+_LABEL_165_18:
+    di
+    ld hl, $3B00
+    ld de, _RAM_C1A1_
+    ld bc, $0080
+    call _LABEL_106_19
+    ret
+
+_LABEL_173_102:
+    ld hl, $3B00
+    call _LABEL_F6_15
+    ld hl, _RAM_C1A1_
+    ld a, (_RAM_C10C_)
+    inc a
+    cp $05
+    jr c, _LABEL_185_103
+    xor a
+_LABEL_185_103:
+    ld (_RAM_C10C_), a
+    ld c, a
+    rlca
+    rlca
+    rlca
+    rlca
+    ld e, a
+    ld d, $00
+    add hl, de
+    ld d, c
+    ld a, $05
+    sub c
+    rlca
+    rlca
+    rlca
+    rlca
+    or a
+    jr z, _LABEL_1A1_104
+    ld b, a
+    ld c, Port_VDPData
+    otir
+_LABEL_1A1_104:
+    ld a, e
+    or a
+    jr z, _LABEL_1AB_105
+    ld b, a
+    ld hl, _RAM_C1A1_
+    otir
+_LABEL_1AB_105:
+    ld hl, _RAM_C1F1_
+    ld b, $10
+    otir
+    ret
+
 _LABEL_1B3_8:
     ld de, $FFFF
 _LABEL_1B6_10:	
