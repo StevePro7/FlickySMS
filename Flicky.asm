@@ -519,6 +519,28 @@ _LABEL_1D5_17:
 ; Data from 1E5 to 1E8 (4 bytes)	
 _DATA_1E5_:	
 	.db $F0 $00 $00 $00
+
+_LABEL_1E9_189:	
+    push af
+    ld a, (_RAM_C0CA_)
+    cp $10
+    jr c, _LABEL_1FF_190
+    xor a
+    ld (_RAM_C0CA_), a
+    ld a, (_RAM_C0C9_)
+    and a
+    jr z, _LABEL_202_191
+    xor a
+    ld (_RAM_C0C9_), a
+_LABEL_1FF_190:
+    pop af
+    retn
+    
+_LABEL_202_191:
+    cpl
+    ld (_RAM_C0C9_), a
+    pop af
+    retn
     
 _LABEL_209_38:
     di
@@ -881,47 +903,11 @@ _LABEL_28A4_6:
     out (Port_VDPAddress), a
     ret
         
-    
 
-    
-
-
-
-    
-_LABEL_165_18:	
-    di
-    ld hl, $3B00
-    ld de, _RAM_C1A1_
-    ld bc, $0080
-    call _LABEL_106_19
-    ret
 
     
 ; Data from 1E5 to 1E8 (4 bytes)	
-_DATA_1E5_:	
-	.db $F0 $00 $00 $00    
-    
-_LABEL_1E9_189:	
-    push af
-    ld a, (_RAM_C0CA_)
-    cp $10
-    jp c, _LABEL_1FF_190
-    xor a
-    ld (_RAM_C0CA_), a
-    ld a, (_RAM_C0C9_)
-    and a
-    jr z, _LABEL_202_191
-    xor a
-    ld (_RAM_C0C9_), a
-_LABEL_1FF_190:
-    pop af
-    retn
-    
-_LABEL_202_191:
-    cpl
-    ld (_RAM_C0C9_), a
-    pop af
-    retn
+
 
 
 ;empty labels
