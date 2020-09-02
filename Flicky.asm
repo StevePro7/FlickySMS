@@ -595,9 +595,14 @@ _LABEL_26B_79:
     ld a, (_RAM_C0E1_)
     or a
     jr nz, _LABEL_27A_128
-    ;call _LABEL_6F22_129
+    call _LABEL_6F22_129
 _LABEL_27A_128:    
 
+; Data from 290 to 2A0 (17 bytes)	
+_LABEL_290_41:	
+	.db $3E $9F $D3 $7F $3E $BF $D3 $7F $3E $DF $D3 $7F $3E $FF $D3 $7F
+	.db $C9
+    
 _LABEL_1E1F_62:
     xor a
     ld hl, _RAM_C0FA_
@@ -914,6 +919,8 @@ _LABEL_28A4_6:
 _LABEL_2AE_169:
 _LABEL_45E_171:
 _LABEL_4BA_162:	
+
+_LABEL_6F22_129:
 
 _LABEL_495_58:
     ld a, (_RAM_C101_)
