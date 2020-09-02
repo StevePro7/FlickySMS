@@ -190,11 +190,11 @@ _RAM_E041_ dw
 .ende
 
 ; Ports	
-.define Port_PSG $7F	
-.define Port_VDPData $BE	
-.define Port_VDPAddress $BF	
-.define _PORT_DE_ $DE	
-.define _PORT_DF_ $DF	
+.define Port_PSG $7F
+.define Port_VDPData $BE
+.define Port_VDPAddress $BF
+.define _PORT_DE_ $DE
+.define _PORT_DF_ $DF
 
 ; Input Ports
 .define Port_VDPStatus $BF
@@ -216,6 +216,7 @@ _LABEL_F_3:
     inc hl
     dec bc
     ld a, c
+    or b
     jr nz, _LABEL_F_3
     call _LABEL_2884_4
     jr _LABEL_70_7
@@ -224,15 +225,29 @@ _LABEL_1C_11:
     in a, (Port_VDPStatus)
     ld b, $0E
     ld hl, _DATA_2A_
-    
+_LABEL_23_12:
+    ld a, (hl)
+    out (Port_VDPAddress), a
+    inc hl
+    djnz _LABEL_23_12
+    ret
     
 ; Data from 2A to 37 (14 bytes)	
 _DATA_2A_:	
 	.db $02 $80 $82 $81 $0E $82 $FF $83 $03 $84 $76 $85 $03 $86
-    
-    
 
-    
+_IRQ_HANDLER:	
+		jp _LABEL_209_38
+	
+	; Data from 3B to 65 (43 bytes)
+	.dsb 43, $00
+	
+_NMI_HANDLER:	
+		jp _LABEL_1E9_189
+	
+	; Data from 69 to 6F (7 bytes)
+	.db $00 $00 $00 $00 $00 $00 $00
+
 _LABEL_70_7:
     ld b, $0A
     call _LABEL_1B3_8
@@ -243,7 +258,7 @@ _LABEL_7B_:
     call _LABEL_C5_21
     call _LABEL_1BF_13
     call _LABEL_254D_22
-    ;call _LABEL_23FE_27
+    call _LABEL_23FE_27
     ;call _LABEL_BC_36
     ld a, $01
     ld (_RAM_C0E1_), a
@@ -255,7 +270,8 @@ _LABEL_92_170:
         
 _stevepro:
     jp _stevepro
-    
+  
+  
     
 _LABEL_1B3_8:
     ld de, $FFFF
@@ -273,6 +289,32 @@ _LABEL_C5_21:
     ld a, $81
     out (Port_VDPAddress), a
     ret
+    
+_LABEL_23FE_27:
+    ld bc, $0d87
+    call _LABEL_CE_28
+    ld a, $20
+    call _LABEL_1D79_29
+    ld hl, $38c8
+    ld de, _DATA_47B7_
+    ld bc, $0511
+    call _LABEL_1C93_30
+    ld hl, $3af5
+    ld de, _DATA_2477_
+    ld bc, $000A
+    call _LABEL_106_19
+_LABEL_2421_165:
+    ld hl, $39E8
+    ld de, _DATA_2466_
+    ld bc, $0011
+    call _LABEL_106_19
+    ld hl, _RAM_C0E1_
+    set 2, (hl)
+    ret
+
+ 
+ _LABEL_CE_28:
+ 
     
 _LABEL_7395_2:	
     ld hl, _DATA_739F_
@@ -372,11 +414,7 @@ _LABEL_1D5_17:
     call _LABEL_165_18
     ret
     
-; Data from 1E5 to 1E8 (4 bytes)	
-_DATA_1E5_:	
-	.db $F0 $00 $00 $00    
-    
-    
+
 _LABEL_106_19:
     di
     call _LABEL_F6_15
@@ -403,6 +441,34 @@ _LABEL_165_18:
     ret
     
     
+; Data from 1E5 to 1E8 (4 bytes)	
+_DATA_1E5_:	
+	.db $F0 $00 $00 $00    
+    
+_LABEL_1E9_189:	
+    push af
+    ld a, (_RAM_C0CA_)
+    cp $10
+    jp c, _LABEL_1FF_190
+    xor a
+    ld (_RAM_C0CA_), a
+    ld a, (_RAM_C0C9_)
+    and a
+    jr z, _LABEL_202_191
+    xor a
+    ld (_RAM_C0C9_), a
+_LABEL_1FF_190:
+    pop af
+    retn
+    
+_LABEL_202_191:
+    cpl
+    ld (_RAM_C0C9_), a
+    pop af
+    retn
+
+
+
 
 ; Data from 2466 to 2476 (17 bytes)	
 _DATA_2466_:	
