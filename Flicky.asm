@@ -464,6 +464,67 @@ _DATA_2544_:
     
 _LABEL_254D_22:	
     ld de, _DATA_3BF7_
+    ld bc, $01D8
+    ld hl, $0300
+    call _LABEL_106_19
+    ld hl, $0b00
+    call _LABEL_106_19
+    ld a, $d0
+    ld hl, $2300
+    call _LABEL_E5_14
+    ld de, _DATA_30FD_
+    ld bc, $0300
+    ld hl,$0000
+    call _LABEL_106_19
+    ld hl, $0800
+    call _LABEL_106_19
+    ld hl, $1000
+    call _LABEL_106_19
+    ld hl, $0000
+    ld de, _DATA_3DCF_
+    ld bc, $0020
+    call _LABEL_106_19
+    ld hl, $1000
+    ld de, _DATA_3DEF_
+    ld bc, $0020
+    call _LABEL_106_19
+    ld a, (_DATA_39B5_)
+    ld bc, $0200
+    ld hl, $2000
+    call _LABEL_E5_14
+    ld hl, $3000
+    call _LABEL_E5_14
+    ld de, _DATA_39B5_ + 2
+    ld a, (_RAM_C0EA_)
+    ld hl, _RAM_C0EC_
+    bit 4, (hl)
+    jr z, _LABEL_25C3_23
+    dec a
+_LABEL_25C3_23:
+    rrca
+    rrca
+    jr c, _LABEL_25CA_24
+    ld de, _DATA_39F7_
+_LABEL_25CA_24:
+    ld bc, $0020
+    ld hl, $2000
+    call _LABEL_106_19  
+    ld de, _DATA_39D7_
+    ld a, (_RAM_C0EA_)
+	ld hl, _RAM_C0EC_
+	bit 4, (hl)
+    jr z, _LABEL_25E1_25
+    dec a
+_LABEL_25E1_25:
+    rrca
+    rrca
+    jr c, _LABEL_25E8_26
+    ld de, _DATA_3A17_
+_LABEL_25E8_26:
+    ld bc, $0060
+    ld hl, $3000
+    call _LABEL_106_19
+    ret
     
     
     
