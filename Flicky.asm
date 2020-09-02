@@ -13,7 +13,7 @@ BANKS 2
 .ENDRO	
 	
 .enum $C000 export	
-_RAM_C000_ db	
+_RAM_C000_ db
 .ende	
 	
 .enum $C0C9 export	
@@ -259,15 +259,64 @@ _LABEL_7B_:
     call _LABEL_1BF_13
     call _LABEL_254D_22
     call _LABEL_23FE_27
-    ;call _LABEL_BC_36
+    call _LABEL_BC_36
     ld a, $01
     ld (_RAM_C0E1_), a
     ld b, $A0
 _LABEL_92_170:
+    ei
+    push bc
+    call _LABEL_4BA_162
+    pop bc
+    ld a, (_RAM_C0E1_)
+    rlca
+    jp c, _LABEL_2AE_169
+    djnz _LABEL_92_170
+    call _LABEL_C5_21
+    ld bc, $0087
+    call _LABEL_CE_28
+    ld b, $02
+    call _LABEL_1B3_8
+    call _LABEL_45E_171
+    ld hl, $C0E1
+    ; Data from B5 to BB (7 bytes)
+	.db $7E $07 $DA $AE $02 $18 $BF
 
+_LABEL_BC_36:
+    ld a, $E2
+    out (Port_VDPAddress), a
+    ld a, $81
+    out (Port_VDPAddress), a
+    ret
+    
+_LABEL_C5_21:	
+    ld a, $82
+    out (Port_VDPAddress), a
+    ld a, $81
+    out (Port_VDPAddress), a
+    ret
 
+_LABEL_CE_28:	
+    ld a, b
+    out (Port_VDPAddress), a
+    ld a, c
+    out (Port_VDPAddress), a
+    ret
 
-        
+_LABEL_D5_96:	
+    call _LABEL_FF_97
+    push af
+    pop af
+    in a, (Port_VDPData)
+    ret
+    
+_LABEL_DD_112:
+    push af
+    call _LABEL_F6_15
+    pop af
+    out (Port_VDPData), a
+    ret
+    
 _stevepro:
     jp _stevepro
   
@@ -308,7 +357,7 @@ _LABEL_209_38:
     in a, (Port_VDPStatus)
     ld a, (_RAM_C0CA_)
     inc a
-    cp $50
+    cp $F0
     jr nc, _LABEL_224_39
     ; Data from 222 to 223 (2 bytes)
 	.db $3E $F0    
@@ -344,8 +393,219 @@ _LABEL_26B_79:
     ld a, (_RAM_C0E1_)
     or a
     jr nz, _LABEL_27A_128
-    call _LABEL_6F22_129
+    ;call _LABEL_6F22_129
 _LABEL_27A_128:    
+
+_LABEL_1E1F_62:
+    xor a
+    ld hl, _RAM_C0FA_
+    ld de, _RAM_C0FE_
+    ld a, (de)
+    sub (hl)
+    jr c, _LABEL_1E48_63
+    jr z, _LABEL_1E2E_64
+    jr _LABEL_1E61_65
+    
+_LABEL_1E2E_64:
+    dec hl
+    dec de
+    ld a, (de)
+    sub (hl)
+    jr c, _LABEL_1E48_63
+	jr z, _LABEL_1E38_66
+	jr _LABEL_1E61_65
+
+_LABEL_1E38_66:
+    dec hl
+    dec de
+    ld a, (de)
+    sub (hl)
+    jr c, _LABEL_1E48_63
+	jr z, _LABEL_1E42_67
+	jr _LABEL_1E61_65
+
+_LABEL_1E42_67:	
+    dec hl
+    dec de
+    ld a, (de)
+    sub (hl)
+    jr nc, _LABEL_1E61_65
+_LABEL_1E48_63:	
+    ld hl, _RAM_C0F7_
+    ld de, _RAM_C0FB_
+    ld bc, $0004
+    ldir
+_LABEL_1E53_:
+    ld a, $04
+    ld (_RAM_C0DF_), a
+    ld de, $3816
+    ld hl, _RAM_C0FB_
+    call _LABEL_1E62_68
+_LABEL_1E61_65:	
+    ret
+    
+_LABEL_1E62_68:
+    push de
+    push hl
+    ld de, _RAM_C0CF_
+    ld bc, $0008
+    ldir
+    pop hl
+    call _LABEL_1FDF_69
+    pop hl
+    ld a, (_RAM_C0DF_)
+    cp $04
+    jr nz, _LABEL_1E81_72
+    ld de, _RAM_C0DE_
+    ld bc, $0807
+    jp _LABEL_1EA2_73
+
+_LABEL_1E81_72:
+    cp $02
+    jr c, _LABEL_1E99_77
+    jr z, _LABEL_1E90_78
+    ld de, _RAM_C0DC_
+    ld bc, $0605
+    jp _LABEL_1EA2_73
+
+_LABEL_1E90_78:
+    ld de, _RAM_C0DA_
+    ld bc, $0403
+    jp _LABEL_1EA2_73
+
+_LABEL_1E99_77:
+    ld de, _RAM_C0D8_
+    ld bc, $0201
+    jp _LABEL_1EA2_73
+
+_LABEL_1EA2_73:
+    di
+    call _LABEL_F6_15
+_LABEL_1EA6_76:	
+    ld a, c
+    or a
+    jr z, _LABEL_1EB4_74
+    dec c
+    ld a, (de)
+    cp $30
+    jr nz, _LABEL_1EB4_74
+    ld a, $20
+    jr _LABEL_1EB7_75
+
+_LABEL_1EB4_74:
+    ld c, $00
+    ld a, (de)
+_LABEL_1EB7_75:	
+    out (Port_VDPData), a
+    dec de
+    djnz _LABEL_1EA6_76
+    ei
+    ret
+
+_LABEL_1FDF_69:
+        
+
+    
+_LABEL_2012_61:
+    ld a, (_RAM_C0EC_)
+    and $61
+    dec a
+    ret nz
+    ld hl, _RAM_C0EF_
+    inc (hl)
+    ld a, $3C
+    sub (hl)
+    ret nz 
+    ld (hl), a
+    ld hl, _RAM_C0F0_
+    ld a, $01
+    add a, (hl)
+    daa
+    ld (hl), a
+    sub $60
+    ret nz
+    ld (hl), a
+    inc hl
+    ld a, $01
+    add a, (hl)
+    daa
+    ld (hl), a
+    sub $60
+    ret nz
+    ld (hl), a
+    inc hl
+    ld a, $01
+    add a, (hl)
+    daa
+    ld (hl), a
+    sub $60
+    ret nz
+    ld (hl), a
+    inc hl
+    ld a, $01
+    add a, (hl)
+    daa
+    ld (hl), a
+    sub $24
+    ret nz
+    ld (hl), a
+    ret
+    
+
+
+; Data from 279D to 27A0 (4 bytes)	
+_DATA_279D_:	
+	.db $0C $04 $0D $00
+	
+; Pointer Table from 27A1 to 27A8 (4 entries, indexed by _RAM_C0EA_)	
+_DATA_27A1_:	
+	.dw _DATA_3B97_ _DATA_3A77_ _DATA_3AD7_ _DATA_3B37_
+	
+; Data from 27A9 to 27C0 (24 bytes)	
+_DATA_27A9_:	
+	.db $20 $20 $20 $20 $20 $20 $BD $BE $BF $C0 $C1 $C2 $C3 $C4 $C5 $C6
+	.db $C7 $C8 $C9 $CA $CB $CC $CD $CE
+	
+; Data from 27C1 to 27D8 (24 bytes)	
+_DATA_27C1_:	
+	.db $AB $AC $20 $20 $20 $20 $20 $20 $AD $AE $AF $B0 $B1 $B2 $B3 $B4
+	.db $B5 $B6 $B7 $B8 $B9 $BA $BB $BC
+    
+_LABEL_27D9_43:
+    xor a
+    ld (_RAM_C100_), a
+    call _LABEL_27E5_44
+    cpl
+    ld (_RAM_C101_), a
+    ret
+    
+_LABEL_27E5_44
+    ld a, (_RAM_C0CB_)
+    and a
+    ;jr z, _LABEL_280A_45
+    in a, (Port_IOPort1)
+    ld c, a
+    rl c
+    rl c
+    rr c
+    rr c
+    ld a, c
+    or $C0
+    ld c, a
+    in a, (Port_IOPort1)
+    bit 4, a
+    jr nz, _LABEL_2802_46
+    res 6, c
+_LABEL_2802_46:
+    bit 5, a
+    jr nz, _LABEL_2808_47
+    res 6, c
+_LABEL_2808_47:
+    ld a, c
+    ret
+    
+    
+
     ld a, $01
     ld (_RAM_C102_), a
     pop hl
@@ -367,11 +627,11 @@ _LABEL_23FE_27:
     ld bc, $0d87
     call _LABEL_CE_28
     ld a, $20
-    call _LABEL_1D79_29
+    ;call _LABEL_1D79_29
     ld hl, $38c8
     ld de, _DATA_47B7_
     ld bc, $0511
-    call _LABEL_1C93_30
+    ;call _LABEL_1C93_30
     ld hl, $3af5
     ld de, _DATA_2477_
     ld bc, $000A
@@ -540,6 +800,31 @@ _LABEL_202_191:
     pop af
     retn
 
+
+
+_LABEL_495_58:
+    ld a, (_RAM_C101_)
+    and $C0
+    jr nz, _LABEL_4B4_59
+    ld hl, _RAM_C0CD_
+    ld a, (_RAM_C107_)
+    and $07
+    jr nz, _LABEL_4A7_60
+    inc (hl)
+_LABEL_4A7_60:
+    ld a, (hl)
+    ld c, a
+    ld d, $00
+    ;ld hl, _DATA_532_
+    add hl, de
+    ld a, (hl)
+    ld (_RAM_C101_), a
+    ret
+    
+_LABEL_4B4_59:
+    ld a, $FF
+    ld (_RAM_C0E1_), a
+    ret
 
 
 
