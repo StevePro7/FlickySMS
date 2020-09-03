@@ -952,6 +952,184 @@ _LABEL_4D8_168:
 	djnz _LABEL_4D8_168
 	ret
 
+; Data from 4F2 to 521 (48 bytes)	
+_DATA_4F2_:	
+	.db $04 $04 $00 $00 $00 $80 $00 $00 $00 $00 $00 $00 $04 $04 $01 $00
+	.db $00 $80 $00 $00 $00 $00 $00 $00 $04 $04 $00 $04 $00 $80 $00 $00
+	.db $00 $00 $00 $00 $04 $04 $02 $00 $00 $80 $00 $00 $00 $00 $00 $00
+	
+; Data from 522 to 531 (16 bytes)	
+_DATA_522_:	
+	.db $F0 $F0 $70 $70 $50 $50 $40 $40 $F0 $F0 $70 $70 $50 $50 $40 $40
+	
+; Data from 532 to 5E1 (176 bytes)	
+_DATA_532_:	
+	.db $00 $04 $04 $04 $04 $54 $04 $04 $04 $04 $04 $04 $54 $04 $04 $04
+	.db $04 $04 $54 $54 $00 $08 $08 $00 $00 $00 $08 $58 $08 $08 $08 $08
+	.db $08 $08 $58 $58 $08 $00 $00 $00 $00 $00 $00 $58 $00 $00 $00 $00
+	.db $08 $08 $08 $58 $08 $08 $08 $08 $00 $00 $00 $00 $00 $50 $54 $54
+	.db $54 $04 $04 $04 $04 $04 $04 $01 $59 $59 $59 $59 $09
+	.dsb 11, $00
+	.db $08 $08 $08 $08 $08 $08 $58 $08 $08 $08 $08 $08 $08 $08 $58 $08
+	.db $08 $08 $08 $08 $58 $58 $00 $00 $04 $04 $04 $00 $00 $54 $54 $54
+	.db $04 $04 $54 $54 $04 $00 $00 $00 $00 $00 $00 $54 $00 $00 $00 $00
+	.db $04 $04 $04 $04 $54 $04 $04 $04 $04 $00 $00 $00 $00 $50 $58 $58
+	.db $58 $08 $08 $08 $08 $08 $08 $01 $54 $54 $54 $54 $04
+	.dsb 11, $00
+
+_LABEL_5E2_:
+	ld a, (_RAM_C10D_)
+	push af
+	ld de, _RAM_C113_
+	ld a, (_RAM_C10D_)
+	ld (de), a
+	inc de
+	ld a, (_RAM_C111_)
+	ld (de), a
+	pop af
+	ld hl, _RAM_C10E_
+	rrca
+	jr c, +
+	rrca
+	ret nc
+	ld a, (_RAM_C111_)
+	add a, (hl)
+	ld b, a
+	and $07
+	ld (hl), a
+	ld a, b
+	cp $08
+	jr c, ++
+	inc hl
+	ld a, (hl)
+	dec a
+	and $1F
+	ld (hl), a
+	ld hl, _RAM_C10D_
+	set 6, (hl)
+	jr ++
+
++:
+	ld a, (_RAM_C111_)
+	neg
+	add a, (hl)
+	ld b, a
+	and $07
+	ld (hl), a
+	ld a, b
+	and $F8
+	jr z, ++
+	inc hl
+	ld a, (hl)
+	inc a
+	and $1F
+	ld (hl), a
+	ld hl, _RAM_C10D_
+	set 6, (hl)
+++:
+	ld a, (_RAM_C10F_)
+	ld hl, $3840
+	ld e, a
+	ld d, $00
+	add hl, de
+	ld de, $480C
+	ld b, $14
+	call _LABEL_1CE4_
+	ei
+	ld hl, _RAM_C10D_
+	res 6, (hl)
+	call +
+	call _LABEL_78A_90
+	ei
+	ret
+
++:
+	ld a, (_RAM_C113_)
+	ld b, a
+	ld a, (_RAM_C114_)
+	bit 0, b
+	jr z, +
+	neg
++:
+	ld hl, _RAM_C112_
+	add a, (hl)
+	and $0F
+	ld (hl), a
+	add a, a
+	ld e, a
+	ld d, $00
+	ld hl, _DATA_686_
+	add hl, de
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ld hl, $0000
+	ld bc, $0020
+	call _LABEL_106_19
+	ld hl, $0020
+	add hl, de
+	ex de, hl
+	ld hl, $1000
+	ld bc, $0020
+	call _LABEL_106_19
+	ret
+
+; Pointer Table from 686 to 6A5 (16 entries, indexed by _RAM_C112_)	
+_DATA_686_:	
+	.dw _DATA_3DCF_ _DATA_3E0F_ _DATA_3E4F_ _DATA_3E8F_ _DATA_3ECF_ _DATA_3F0F_ _DATA_3F4F_ _DATA_3F8F_
+	.dw _DATA_3FCF_ _DATA_400F_ _DATA_404F_ _DATA_408F_ _DATA_40CF_ _DATA_410F_ _DATA_414F_ _DATA_418F_
+	
+; Data from 6A6 to 6D1 (44 bytes)	
+_LABEL_6A6_80:	
+	.db $3A $55 $C1 $B7 $C0 $21 $EC $C0 $CB $46 $C8 $21 $0D $C1 $CB $5E
+	.db $20 $24 $3A $01 $C1 $E6 $30 $28 $19 $3A $19 $C1 $B7 $20 $17 $CB
+	.db $DE $3E $86 $E5 $21 $20 $C3 $CB $46 $20 $01 $77
+	
+; Data from 6D2 to 6D7 (6 bytes)	
+_LABEL_6D2_83:	
+	.db $E1 $32 $19 $C1 $18 $04
+	
+; Data from 6D8 to 6DB (4 bytes)	
+_LABEL_6D8_82:	
+	.db $AF $32 $19 $C1
+	
+; Data from 6DC to 705 (42 bytes)	
+_LABEL_6DC_81:	
+	.db $3A $01 $C1 $CB $5F $20 $23 $CB $57 $28 $3D $CB $A6 $CB $4E $20
+	.db $54 $CB $FE $CB $C6 $CB $AE $3E $01 $32 $57 $C1 $3A $10 $C1 $FE
+	.db $20 $28 $4B $3C $3C $32 $10 $C1 $18 $44
+	
+; Data from 706 to 723 (30 bytes)	
+_LABEL_706_84:	
+	.db $CB $A6 $CB $46 $20 $35 $CB $FE $CB $CE $CB $AE $AF $32 $57 $C1
+	.db $3A $10 $C1 $FE $20 $28 $2D $3C $3C $32 $10 $C1 $18 $26
+	
+; Data from 724 to 738 (21 bytes)	
+_LABEL_724_85:	
+	.db $21 $0D $C1 $CB $66 $20 $1F $3A $10 $C1 $B7 $20 $08 $F5 $7E $E6
+	.db $08 $77 $F1 $18 $11
+	
+; Data from 739 to 740 (8 bytes)	
+_LABEL_739_89:	
+	.db $CB $EE $3D $32 $10 $C1 $18 $09
+	
+; Data from 741 to 749 (9 bytes)	
+_LABEL_741_86:	
+	.db $21 $10 $C1 $35 $28 $DD $35 $28 $DA
+	
+; Data from 74A to 767 (30 bytes)	
+_LABEL_74A_87:	
+	.db $21 $11 $C1 $3A $10 $C1 $36 $04 $FE $20 $30 $12 $36 $03 $FE $18
+	.db $D0 $36 $02 $FE $10 $D0 $36 $01 $FE $08 $D0 $36 $00 $C9
+	
+; Data from 768 to 76D (6 bytes)	
+_LABEL_768_88:	
+	.db $3E $20 $32 $10 $C1 $C9
+	
+; Data from 76E to 789 (28 bytes)	
+_LABEL_76E_106:	
+	.db $F3 $3A $55 $C1 $B7 $C0 $21 $EC $C0 $CB $46 $C8 $CB $66 $C0 $CB
+	.db $6E $C0 $CD $93 $08 $CD $C4 $08 $CD $1E $08 $C9
 	
 	
 _LABEL_1E1F_62:
