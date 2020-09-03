@@ -725,7 +725,152 @@ _LABEL_2D7_:
 	jr ++
 
 +:
+	ld hl, _DATA_2C3_
+	ld de, _RAM_C0E7_
+	ld bc, $0005
+	ldir
+++:
+	call _LABEL_207B_173
+	ld hl, 	_DATA_2CB_
+	ld de, 	_RAM_C0EF_
+	ld bc, $0004
+	ldir
+	ld hl, _RAM_C0EC_
+	res 6, (hl)
+	jp _LABEL_2D7_
 
+_LABEL_387_:
+	ld a, $85
+	ld (_RAM_C320_), a
+	ld b, $40
+-:
+	push bc
+	ei
+	call _LABEL_2A1_
+	call _LABEL_B78_
+	ei
+	call _LABEL_2A1_
+	call _LABEL_10DD_
+	call _LABEL_156D_
+	pop bc
+	djnz -
+	ld a, (_RAM_C0E1_)
+	or a
+	ret nz
+	ld hl, _RAM_C10E_
+	ld de,	_RAM_C0E3_
+	ld bc, $0002
+	ldir
+	ld a, (_RAM_C0EE_)
+	or a
+	jr z, +
+	dec a
+	ld (_RAM_C0EE_), a
+	call _LABEL_207B_173
+	ld hl, _RAM_C0EC_
+	res 5, (hl)
+	jp _LABEL_2D7_
+
++:
+	ld hl, _RAM_C0EC_
+	ld (hl), $00
+	jp _LABEL_2D7_
+
+_LABEL_3D0_:
+	call _LABEL_2A1_
+	ld hl, _RAM_C0EC_
+	set 0, (hl)
+	call _LABEL_17FA_
+	call _LABEL_18F1_
+	call _LABEL_17A9_
+	jp _LABEL_2D7_
+
+_LABEL_3E4_174:	
+	ld hl, _RAM_C0FF_
+	ld bc, $0122
+	ld a, (_RAM_C0EC_)
+	bit 5, a
+	jr z, _LABEL_3F4_175
+	ld bc, $0026
+_LABEL_3F4_175:
+	ld (hl), $00
+	inc hl
+	dec bc
+	ld a, b
+	or c
+	jr nz, _LABEL_3F4_175
+	ret
+
+_LABEL_3FD_:
+	ld hl, _RAM_C0EC_
+	bit 5, (hl)
+	ret nz
+	ld hl, _RAM_C1A1_
+	ld b, $80
+-:
+	ld a, b
+	and $03
+	jr nz, +
+	ld (hl), $E0
+	jr ++
+
++:
+	ld (hl), $00
+++:
+	inc hl
+	djnz -
+	ret
+
+_LABEL_417_:
+	push bc
+	push de
+	push hl
+	call _LABEL_7395_2
+	pop hl
+	pop de
+	pop bc
+	ld a, (_RAM_C0C9_)
+	or a
+	ret z
+	jr _LABEL_417_
+
+_LABEL_427_:
+	ei
+	xor a
+	ld (_RAM_C102_), a
+	ld a, (_RAM_C0C9_)
+	or a
+	call nz, _LABEL_417_
+	ld a, (_RAM_C155_)
+	or a
+	jr nz, +
+	ld a, (_RAM_C10D_)
+	bit 7, a
+	jr z, ++
+	call _LABEL_5E2_
+-:
+	call _LABEL_A1B_
+	call _LABEL_C58_
+	call _LABEL_13C4_
+	call _LABEL_C4E_
+	call _LABEL_BD9_
++:
+	call _LABEL_141A_
+	ret
+
+++:
+	call _LABEL_2A1_
+	call _LABEL_2A1_
+	jr -
+
+_LABEL_45E_171:
+	call _LABEL_474_172
+	call _LABEL_2D7_
+	di
+	; Data from 465 to 473 (15 bytes)
+	.db $21 $EC $C0 $36 $00 $CD $95 $73 $CD $08 $04 $CD $73 $01 $C9
+	
+_LABEL_474_172:
 	
 	
 _LABEL_1E1F_62:
