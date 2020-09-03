@@ -1539,6 +1539,45 @@ _LABEL_AE2_:
 	
 _LABEL_B78_:
 	ld hl, _RAM_C0EC_
+	bit 3, (hl)
+	ret nz
+	ld a, (_RAM_C107_)
+	and $02
+	ret nz
+	ld a, (_RAM_C11A_)
+	inc a
+	ld (_RAM_C11A_), a
+	and $07
+	add a, a
+	ld e, a
+	ld d, $00
+	ld hl, _DATA_BB9_
+	add hl, de
+	push hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ld hl, $0020
+	ld bc, $0030
+	call _LABEL_106_19
+	ld hl, $0820
+	call _LABEL_106_19
+	ld hl, $1020
+	call _LABEL_106_19
+	pop hl
+	ld de, $0010
+	add hl, de
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	jp _LABEL_87D_
+
+; Pointer Table from BB9 to BC8 (8 entries, indexed by _RAM_C11A_)	
+_DATA_BB9_:	
+	.dw _DATA_4417_ _DATA_4447_ _DATA_4417_ _DATA_4447_ _DATA_4447_ _DATA_4477_ _DATA_4477_ _DATA_4477_
+	
+	; Data from BC9 to BD8 (16 bytes)
+	.db $E7 $46 $17 $47 $E7 $46 $17 $47 $17 $47 $47 $47 $47 $47 $47 $47	
 
 
 	
@@ -1855,7 +1894,7 @@ _LABEL_28A4_6:
 
 
 ;empty labels
-_LABEL_A9D_:
+
 _LABEL_1CB8_110:
 _LABEL_1C2D_93:
 
