@@ -1445,6 +1445,11 @@ _LABEL_28A4_6:
 
 
 ;empty labels
+
+_LABEL_2433_164:
+_LABEL_1CE4_:
+_LABEL_78A_90:
+
 _LABEL_C58_
 _LABEL_BD9_:
 _LABEL_141A_:
@@ -1453,7 +1458,6 @@ _LABEL_13C4_:
 _LABEL_A1B_
 _LABEL_B78_:
 _LABEL_10DD_:
-_LABEL_5E2_:
 _LABEL_17A9_:
 _LABEL_156D_:
 
@@ -1467,37 +1471,18 @@ _LABEL_2043_:
 _LABEL_233F_:
 _LABEL_23F0_:
 _LABEL_207B_173:
-_LABEL_4BA_162:
+
 
 _LABEL_6F22_129:
 
-_LABEL_495_58:
-    ld a, (_RAM_C101_)
-    and $C0
-    jr nz, _LABEL_4B4_59
-    ld hl, _RAM_C0CD_
-    ld a, (_RAM_C107_)
-    and $07
-    jr nz, _LABEL_4A7_60
-    inc (hl)
-_LABEL_4A7_60:
-    ld a, (hl)
-    ld c, a
-    ld d, $00
-    ;ld hl, _DATA_532_
-    add hl, de
-    ld a, (hl)
-    ld (_RAM_C101_), a
-    ret
+
+
     
-_LABEL_4B4_59:
-    ld a, $FF
-    ld (_RAM_C0E1_), a
-    ret
 
 
 
-; Data from 2466 to 2476 (17 bytes)	
+
+; Data from 2466 to 2476 (17 bytes)
 _DATA_2466_:	
 	.db $50 $55 $53 $48 $20 $53 $54 $41 $52 $54 $20 $42 $55 $54 $54 $4F
 	.db $4E
