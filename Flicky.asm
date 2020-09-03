@@ -1195,8 +1195,240 @@ _LABEL_7E8_101:
 	ret
 
 _LABEL_7F0_99:
-	
+	ld de, _DATA_9DB_
+	ld a, (hl)
+	cp $40
+	jr z, _LABEL_7B7_98
+	and $7F
+	ld l, a
+	ld h, $00
+	add hl, de
+	ld b, (hl)
+	ld a, (_RAM_C117_)
+	bit 7, a
+	jr nz, _LABEL_80A_100
+	ld a, b
+	neg
+	ld b, a
+_LABEL_80A_100:
+	ld a, b
+	ld (_RAM_C116_), a
+	ld a, (_RAM_C115_)
+	add a, b
+	ld (_RAM_C115_), a
+	cp $A0
+	ret c
+	ld a, $9F
+	ld (_RAM_C115_), a
+	ret
 
+_LABEL_81E_118:
+	ld a, (_RAM_C107_)
+	ld b, a
+	xor a
+	ld hl, _RAM_C10D_
+	bit 4, (hl)
+	jr nz, _LABEL_838_119
+	ld de, _DATA_91D_
+	bit 0, (hl)
+	jr nz, _LABEL_83B_120
+	ld de, _DATA_943_
+	bit 1, (hl)
+	jr nz, _LABEL_83B_120
+_LABEL_838_119:
+	ld de, _DATA_8F7_
+_LABEL_83B_120:
+	bit 3, (hl)
+	jr nz, _LABEL_843_121
+	bit 5, (hl)
+	jr nz, _LABEL_857_122
+_LABEL_843_121:
+	inc a
+	bit 2, b
+	jr z, _LABEL_849_123
+	inc a
+_LABEL_849_123:
+	bit 3, (hl)
+	jr z, _LABEL_857_122
+	ld c, a
+	ld a, (_RAM_C115_)
+	and $07
+	xor $07
+	add a, a
+	add a, c
+_LABEL_857_122:
+	add a, a
+	ld l, a
+	ld h, $00
+	add hl, de
+	push hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ld hl, $0020
+	ld bc, $0030
+	call _LABEL_106_19
+	ld hl, $0820
+	call _LABEL_106_19
+	ld hl, $1020
+	call _LABEL_106_19
+	pop hl
+	ld de, $0072
+	add hl, de
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+_LABEL_87D_:	
+	ld bc, $0030
+	ld hl, $2020
+	call _LABEL_118_124
+	ld hl, $2820
+	call _LABEL_118_124
+	ld hl, $3020
+	call _LABEL_118_124
+	ret
+	
+_LABEL_893_107:
+	ld a, (_RAM_C115_)
+	cp $10
+	jr nc, _LABEL_8A5_108
+	ld hl, $382F
+	ld de, _DATA_8ED_
+	ld bc, $0502
+	jr _LABEL_8B0_109
+
+_LABEL_8A5_108:
+	sub $10
+	call _LABEL_8B4_92
+	ld de, _DATA_8E9_
+	ld bc, $0702
+_LABEL_8B0_109:
+	call _LABEL_1CB8_110
+	ret
+	
+_LABEL_8B4_92:
+	and $F8
+	rrca
+	rrca
+	rrca
+	ld h, a
+	ld e, $20
+	call _LABEL_1C2D_93
+	ld de, $380F
+	add hl, de
+	ret
+
+; Data from 8C4 to 8C9 (6 bytes)	
+_LABEL_8C4_115:	
+	.db $3A $0D $C1 $CB $5F $C0
+	
+; Data from 8CA to 8E2 (25 bytes)	
+_LABEL_8CA_117:	
+	.db $3A $15 $C1 $C6 $10 $CD $B4 $08 $2B $CD $D5 $00 $FE $62 $28 $09
+	.db $23 $23 $23 $CD $D5 $00 $FE $62 $C0
+	
+; Data from 8E3 to 8E8 (6 bytes)	
+_LABEL_8E3_116:	
+	.db $21 $15 $C1 $35 $18 $E1
+	
+; Data from 8E9 to 8EC (4 bytes)	
+_DATA_8E9_:	
+	.db $60 $60 $60 $60
+	
+; Data from 8ED to 8F6 (10 bytes)	
+_DATA_8ED_:	
+	.db $04 $07 $05 $08 $06 $09 $60 $60 $60 $60
+	
+; Pointer Table from 8F7 to 91C (19 entries, indexed by _RAM_C107_)	
+_DATA_8F7_:	
+	.dw _DATA_42EF_ _DATA_42EF_ _DATA_42EF_ _DATA_42EF_ _DATA_431F_ _DATA_42F0_ _DATA_4320_ _DATA_42F1_
+	.dw _DATA_4321_ _DATA_42F2_ _DATA_4322_ _DATA_42F3_ _DATA_4323_ _DATA_42F4_ _DATA_4324_ _DATA_42F5_
+	.dw _DATA_4325_ _DATA_42F6_ _DATA_4326_
+	
+; Pointer Table from 91D to 942 (19 entries, indexed by _RAM_C115_)	
+_DATA_91D_:	
+	.dw _DATA_422F_ _DATA_41CF_ _DATA_41FF_ _DATA_434F_ _DATA_437F_ _DATA_4350_ _DATA_4380_ _DATA_4351_
+	.dw _DATA_4381_ _DATA_4352_ _DATA_4382_ _DATA_4353_ _DATA_4383_ _DATA_4354_ _DATA_4384_ _DATA_4355_
+	.dw _DATA_4385_ _DATA_4356_ _DATA_4386_
+	
+; Pointer Table from 943 to 9DA (76 entries, indexed by _RAM_C115_)	
+_DATA_943_:	
+	.dw _DATA_42BF_ _DATA_425F_ _DATA_428F_ _DATA_43AF_ _DATA_43DF_ _DATA_43B0_ _DATA_43E0_ _DATA_43B1_
+	.dw _DATA_43E1_ _DATA_43B2_ _DATA_43E2_ _DATA_43B3_ _DATA_43E3_ _DATA_43B4_ _DATA_43E4_ _DATA_43B5_
+	.dw _DATA_43E5_ _DATA_43B6_ _DATA_43E6_ _DATA_45C7_ _DATA_45C7_ _DATA_45C7_ _DATA_45C7_ _DATA_45F7_
+	.dw _DATA_45C8_ _DATA_45F8_ _DATA_45C9_ _DATA_45F9_ _DATA_45CA_ _DATA_45FA_ _DATA_45CB_ _DATA_45FB_
+	.dw _DATA_45CC_ _DATA_45FC_ _DATA_45CD_ _DATA_45FD_ _DATA_45CE_ _DATA_45FE_ _DATA_4507_ _DATA_44A7_
+	.dw _DATA_44D7_ _DATA_4627_ _DATA_4657_ _DATA_4628_ _DATA_4658_ _DATA_4629_ _DATA_4659_ _DATA_462A_
+	.dw _DATA_465A_ _DATA_462B_ _DATA_465B_ _DATA_462C_ _DATA_465C_ _DATA_462D_ _DATA_465D_ _DATA_462E_
+	.dw _DATA_465E_ _DATA_4597_ _DATA_4537_ _DATA_4567_ _DATA_4687_ _DATA_46B7_ _DATA_4688_ _DATA_46B8_
+	.dw _DATA_4689_ _DATA_46B9_ _DATA_468A_ _DATA_46BA_ _DATA_468B_ _DATA_46BB_ _DATA_468C_ _DATA_46BC_
+	.dw _DATA_468D_ _DATA_46BD_ _DATA_468E_ _DATA_46BE_
+	
+; Data from 9DB to A1A (64 bytes)	
+_DATA_9DB_:	
+	.dsb 15, $02
+	.dsb 18, $01
+	.db $00 $01 $00 $01 $00 $01 $00 $01 $00 $01 $00 $01 $00 $01 $00 $01
+	.db $00 $00 $01 $00 $00 $01 $00 $00 $01 $00 $00 $01 $00 $00 $00
+
+_LABEL_A1B_:
+	call +
+	call _LABEL_A9D_
+	ret
+
++:
+	ld hl, _RAM_C10D_
+	res 4, (hl)
+	bit 3, (hl)
+	ret nz
+	xor a
+	ld (_RAM_C118_), a
+	ld a, (_RAM_C115_)
+	add a, $18
+	call _LABEL_8B4_92
+	call _LABEL_D5_96
+	ld d, a
+	cp $04
+	ret c
+	inc hl
+	call _LABEL_D5_96
+	ld e, a
+	ld hl, _RAM_C118_
+	ld a, d
+	cp $62
+	jr nc, +
+	set 1, (hl)
++:
+	ld a, e
+	cp $62
+	jr nc, +
+	set 0, (hl)
++:
+	ld a, (hl)
+	and $03
+	ret z
+	cp $03
+	jp z, _LABEL_7B7_98
+	dec a
+	jr nz, +
+	ld a, d
+	ld hl, $0B46
+	ld bc, $0012
+	cpir
+	ret nz
+	ld a, (_RAM_C101_)
+	and $0C
+	ret nz
+	ld hl, _RAM_C10D_
+	ld a, (hl)
+	or $92
+	and $FE
+	ld (hl), a
+	ld a, $08
+	ld (_RAM_C110_), a
+	ret
+
++:
 
 
 	
@@ -1513,17 +1745,21 @@ _LABEL_28A4_6:
 
 
 ;empty labels
+_LABEL_A9D_:
+_LABEL_1CB8_110:
+_LABEL_1C2D_93:
+
 
 _LABEL_2433_164:
 _LABEL_1CE4_:
-_LABEL_78A_90:
+
 
 _LABEL_C58_
 _LABEL_BD9_:
 _LABEL_141A_:
 _LABEL_C4E_:
 _LABEL_13C4_:
-_LABEL_A1B_
+
 _LABEL_B78_:
 _LABEL_10DD_:
 _LABEL_17A9_:
