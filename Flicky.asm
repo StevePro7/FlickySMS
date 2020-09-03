@@ -1898,7 +1898,154 @@ _LABEL_DDF_:
 	ret
 
 _LABEL_E06_:
+	dec (iy+2)
+	ret nz
+	bit 0, (iy+3)
+	res 5, (iy+0)
+	jp nz, _LABEL_E77_
+	set 4, (iy+0)
+	ld a, (_RAM_C115_)
+	add a, $10
+	cp (ix+0)
+	jp c, _LABEL_EB8_
+	sub $18
+	cp (ix+0)
+	jp nc, _LABEL_EC8_
+	ld a, (ix+1)
+	cp $78
+	jr nc, +
+	bit 3, (iy+0)
+	jr nz, _LABEL_E77_
+	jr ++
 
++:
+	bit 3, (iy+0)
+	jr z, _LABEL_E77_
+++:
+	ld bc, $0008
+-:
+	call _LABEL_E61_
+	jr nz, +
+	jr nc, _LABEL_E58_
+	jr ++
+
++:
+	jr c, _LABEL_E58_
+++:
+	call _LABEL_10C8_
+	cp $63
+	jr nc, _LABEL_EC8_
+	jr -
+
+_LABEL_E58_:
+	set 0, (iy+0)
+	ld (iy+1), $09
+	ret
+
+_LABEL_E61_:
+	ld a, c
+	bit 3, (iy+0)
+	jr nz, +
+	add a, $10
++:
+	sub $08
+	ld c, a
+	add a, (ix+1)
+	cp $78
+	bit 3, (iy+0)
+	ret
+
+_LABEL_E77_:
+	call +++
+	ld bc, $0008
+--:
+	call _LABEL_E61_
+	jr nz, +
+	jr c, ++
+-:
+	res 0, (iy+3)
+	ret
+
++:
+	jr c, -
+++:
+	call _LABEL_10C8_
+	cp $63
+	jr c, --
+	call +++
+	bit 0, (iy+3)
+	res 0, (iy+3)
+	ret nz
+	set 4, (iy+0)
+	jr _LABEL_E58_
+
++++:
+	res 4, (iy+0)
+	bit 3, (iy+0)
+	jr z, +
+	res 3, (iy+0)
+	ret
+
++:
+	set 3, (iy+0)	
+	ret
+	
+_LABEL_EB8_:
+	call ++
+	jr z, +
+-:
+	set 1, (iy+0)
+	ld de, $0808
+	call _LABEL_D2F_
+	ret
+
+_LABEL_EC8_:
+	set 4, (iy+0)
+	call ++
+	jr z, -
++:
+	set 2, (iy+0)
+	set 1, (iy+0)
+	set 1, (iy+3)
+	ld (iy+1), $0F
+	ret
+
+++:
+	bit 7, (iy+3)
+	ret nz
+	ld a, r
+	and $03
+	ret
+
+_LABEL_EEC_:
+	ld (ix+0), $00
+	ld (ix+1), $08
+	ld (ix+3), $00
+	ld (iy+2), $80
+	res 7, (iy+0)
+	set 6, (iy+0)
+	ret
+
+_LABEL_F05_:
+	dec (iy+2)
+	ret nz
+	ld (ix+3), $0F
+	ld (iy+0), $08
+	ret
+
+; Data from F12 to F92 (129 bytes)	
+_DATA_F12_:	
+	.db $0D $0C $0B $0A $09 $08 $07 $06 $05 $04 $03 $02 $01 $01 $00 $01
+	.db $00 $00 $01 $00 $00 $00 $00 $6A $73 $7C $85 $8E $97 $A0 $A9 $63
+	.db $6C $75 $7E $87 $90 $99 $A2 $62 $64 $6D $76 $7F $88 $91 $9A $A3
+	.db $68 $71 $7A $83 $8C $95 $9E $A7 $69 $72 $7B $84 $8D $96 $9F $A8
+	.db $6A $73 $7C $85 $8E $97 $A0 $A9 $6B $74 $7D $86 $8F $98 $A1 $AA
+	.db $64 $6D $76 $7F $88 $91 $9A $A3 $62 $63 $6C $75 $7E $87 $90 $99
+	.db $A2 $68 $71 $7A $83 $8C $95 $9E $A7 $69 $72 $7B $84 $8D $96 $9F
+	.db $A8 $6A $73 $7C $85 $8E $97 $A0 $A9 $6B $74 $7D $86 $8F $98 $A1
+	.db $AA
+	
+	
 	
 	
 _LABEL_1E1F_62:
@@ -2214,11 +2361,11 @@ _LABEL_28A4_6:
 
 
 ;empty labels
-_LABEL_EEC_:
-_LABEL_F05_:
+
+
 _LABEL_F93_:
 _LABEL_102B_:
-_LABEL_EC8_:
+
 _LABEL_10C8_:
 _LABEL_1C62_:
 
