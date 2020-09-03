@@ -1731,7 +1731,173 @@ _LABEL_C6F_:
 	ret
 
 _LABEL_CD9_:
+	ld a, (iy+0)
+	rlca
+	jp c, _LABEL_EEC_
+	rlca
+	jp c, _LABEL_F05_
+	rlca
+	jp c, _LABEL_E06_
+	rlca
+	jp c, _LABEL_F93_
+	inc b
+	inc b
+	rlca
+	jr nc, _LABEL_D10_
+-:
+	dec (ix+1)
+	bit 1, (iy+3)
+	ret nz
+	push bc
+	ld hl, $0F62
+	ld de, $08F2
+	call _LABEL_D2F_
+	ld hl, $0F31
+	ld bc, $1204
+	call _LABEL_DDF_
+	pop bc
+	djnz -
+	ret
 
+_LABEL_D10_:
+	inc (ix+1)
+	bit 1, (iy+3)
+	ret nz
+	push bc
+	ld hl, $0F31
+	ld de, $081E
+	call _LABEL_D2F_
+	ld hl, $0F62
+	ld bc, $120B
+	call _LABEL_DDF_
+	pop bc
+	djnz _LABEL_D10_
+	ret
+
+_LABEL_D2F_:
+	push de
+	ld b, $09
+_LABEL_D32_:
+	push bc
+	push de
+	pop bc
+	call _LABEL_10C8_
+	cp $60
+	jr z, ++
+	bit 1, (iy+0)
+	jr z, +
+	ld c, $31
+	cp $04
+	jr c, +++
+	cp $62
+	jr nc, +++
++:
+	ld c, $00
+	cp $04
+	jr c, +++
+	push hl
+	ld bc, $0031
+	cpir
+	pop hl
+	jr z, +++
+++:
+	ld c, $F8
+	ld a, d
+	add a, c
+	ld d, a
+	pop bc
+	bit 1, (iy+0)
+	jr z, ++
+	ld a, $F8
+	bit 3, (iy+0)
+	jr nz, +
+	ld a, $08
++:
+	bit 0, b
+	jr z, ++
+	add a, e
+	ld e, a
+++:
+	ei 
+	djnz _LABEL_D32_
+	ld (iy+1), $01
+	pop de
+	ret
+
++++:
+	ld a, c
+	cp $29
+	pop bc
+	pop de
+	ret c
+	set 1, (iy+3)
+	ld a, b
+	bit 1, (iy+0)
+	jr z, +
+	add a, $02
+	jr ++
+
++:
+	sub $03
+++:
+	 jr nc, +
+	 xor a
++:
+	ld (iy+1), a
+	ld a, (_RAM_C115_)
+	add a, $10
+	cp (ix+0)
+	jr c, ++++
+	sub $18
+	cp (ix+0)
+	jr nc, +++
+	ld a, (ix+1)
+	cp $78
+	bit 3, (iy+0)
+	jr nz, +
+	jr c, +++
+	jr ++
+
++:
+	jr nc, +++
+++:
+	set 0, (iy+3)
+	jr +++++
+
++++:
+	ld bc, $081B
+	bit 3, (iy+0)
+	jr z, +
+	ld c, $F5
++:
+	call _LABEL_10C8_
+	cp $62
+	ret c
+++++:
+	set 4, (iy+0)
+	res 2, (iy+0)
+	ret
+
+_LABEL_DDF_:
+	bit 4, (iy+0)
+	ret nz
+	call _LABEL_10C8_
+	ld bc, $0008
+	cpir
+	jr z, +++++
+	and $FE
+	cp $60
+	jp z, _LABEL_EC8_
+	call _LABEL_102B_
+	ret
+
++++++:
+	ld (iy+2), $0A
+	set 5, (iy+0)
+	set 1, (iy+3)
+	ret
+
+_LABEL_E06_:
 
 	
 	
@@ -2048,6 +2214,12 @@ _LABEL_28A4_6:
 
 
 ;empty labels
+_LABEL_EEC_:
+_LABEL_F05_:
+_LABEL_F93_:
+_LABEL_102B_:
+_LABEL_EC8_:
+_LABEL_10C8_:
 _LABEL_1C62_:
 
 _LABEL_1CB8_110:
