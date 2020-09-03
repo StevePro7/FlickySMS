@@ -1579,7 +1579,161 @@ _DATA_BB9_:
 	; Data from BC9 to BD8 (16 bytes)
 	.db $E7 $46 $17 $47 $E7 $46 $17 $47 $17 $47 $47 $47 $47 $47 $47 $47	
 
+_LABEL_BD9_:
+	ld ix, _RAM_C1B1_
+	ld b, $02
+--:
+	push bc
+	ld bc, _LABEL_706_84 + 1	; _LABEL_706_84 + 1 = $0707
+	call _LABEL_1C62_
+	cp $05
+	jr z, +
+	cp $08
+	jr z, +
+-:
+	ld de, $0004
+	add ix, de
+	pop bc
+	djnz --
+	ret
 
++:
+	call +
+	ld hl, _RAM_C0EC_
+	set 5, (hl)
+	ld (ix+0), $E0
+	xor a
+	ld (_RAM_C13E_), a
+	jr -
+
++:
+	push ix
+	ld ix, _RAM_C1B9_
+	ld iy, _RAM_C125_
+	ld b, $08
+--:
+	push bc
+	ld a, $03
+	cp (iy+0)
+	jr nz, ++
+	ld (iy+0), $01
+	ld (iy+1), $00
+-:
+	ld bc, $0C03
+	call _LABEL_1C62_
+	cp $62
+	jr c, ++
+	ld a, (ix+1)
+	cp $7D
+	jr c, +
+	dec (ix+1)
+	jr -
+
++:
+	inc (ix+1)
+	jr -
+
+++:
+	ld de, $0004
+	add ix, de
+	dec de
+	add iy, de
+	pop bc
+	djnz --
+	pop ix
+	ret
+
+_LABEL_C4E_:
+	call _LABEL_156D_
+	call +
+	call _LABEL_10DD_
+	ret
+	
+_LABEL_C58_:
+	ld a, (_RAM_C114_)
+	or a
+	ret z
+	di
+	ld c, a
+	ld b, $20
+	ld hl, _RAM_C1A2_
+	ld a, (_RAM_C113_)
+	ld d, a
+	ld a, c
+	bit 1, d
+	jr z, _LABEL_C6F_
+	neg
+_LABEL_C6F_:
+	push af
+	add a, (hl)
+	ld (hl), a
+	pop af
+	inc hl
+	inc hl
+	inc hl
+	inc hl
+	djnz _LABEL_C6F_
+	ei
+	ret
+
++:
+	di
+	ld ix, _RAM_C1B1_
+	ld iy, _RAM_C11C_
+	set 7, (iy+3)
+	ld b, $02
+-:
+	push bc
+	res 1, (iy+3)
+	call _LABEL_CD9_
+	call +
+	ld de, $0004
+	add ix, de
+	add iy, de
+	pop bc
+	djnz -
+	ei
+	ret
+
++:
+	bit 5, (iy+0)
+	ret nz
+	ld a, (_RAM_C10A_)
+	ld b, $00
+	cp $04
+	jr z, +
+	inc b
+	cp $08
+	jr z, +
+	inc b
+	cp $0C
+	jr z, +
+	ret c
+	xor a
+	ld (_RAM_C10A_), a
+	ret
+
++:
+	bit 4, (iy+0)
+	jr z, +
+	ld b, $02
++:
+	ld c, $0C
+	bit 3, (iy+0)
+	jr z, +
+	ld c, $00
++:
+	ld a, b
+	rlca
+	rlca
+	add a, c
+	ld (ix+2), a
+	ret
+
+_LABEL_CD9_:
+
+
+	
 	
 _LABEL_1E1F_62:
     xor a
@@ -1741,7 +1895,7 @@ _LABEL_2012_61:
 ; Data from 279D to 27A0 (4 bytes)	
 _DATA_279D_:	
 	.db $0C $04 $0D $00
-	
+
 ; Pointer Table from 27A1 to 27A8 (4 entries, indexed by _RAM_C0EA_)	
 _DATA_27A1_:	
 	.dw _DATA_3B97_ _DATA_3A77_ _DATA_3AD7_ _DATA_3B37_
@@ -1894,6 +2048,7 @@ _LABEL_28A4_6:
 
 
 ;empty labels
+_LABEL_1C62_:
 
 _LABEL_1CB8_110:
 _LABEL_1C2D_93:
@@ -1903,10 +2058,10 @@ _LABEL_2433_164:
 _LABEL_1CE4_:
 
 
-_LABEL_C58_
-_LABEL_BD9_:
+
+
 _LABEL_141A_:
-_LABEL_C4E_:
+
 _LABEL_13C4_:
 
 
