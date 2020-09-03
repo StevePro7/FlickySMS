@@ -596,13 +596,138 @@ _LABEL_26B_79:
     or a
     jr nz, _LABEL_27A_128
     call _LABEL_6F22_129
-_LABEL_27A_128:    
+_LABEL_27A_128:
+	ld a, $01
+	ld (_RAM_C102_), a
+	pop hl
+	pop de
+	pop bc
+	exx
+	pop af
+	ex af, af'
+	pop hl
+	pop de
+	pop bc
+	pop af
+	pop iy
+	pop ix
+	ei
+	reti
 
 ; Data from 290 to 2A0 (17 bytes)	
 _LABEL_290_41:	
 	.db $3E $9F $D3 $7F $3E $BF $D3 $7F $3E $DF $D3 $7F $3E $FF $D3 $7F
 	.db $C9
-    
+
+_LABEL_2A1_:
+	ei
+	push hl
+	ld hl, _RAM_C102_
+	ld (hl), $00
+-:
+	ld a, (hl)
+	or a
+	jr z, -
+	pop hl
+	ret
+
+_LABEL_2AE_169:
+	xor a
+	ld (_RAM_C0E1_), a
+	ld hl, _DATA_2C3_
+	ld de, _RAM_C0E7_
+	ld bc, $0014
+	ldir
+	call _LABEL_207B_173
+	jp _LABEL_2D7_
+
+; Data from 2C3 to 2CA (8 bytes)	
+_DATA_2C3_:	
+	.db $01 $01 $00 $00 $0C $80 $00 $02
+	
+; Data from 2CB to 2D6 (12 bytes)	
+_DATA_2CB_:	
+	.dsb 12, $00
+
+_LABEL_2D7_:
+	ei
+	ld a, (_RAM_C0C9_)
+	or a
+	call nz, _LABEL_417_
+	ld a, (_RAM_C0E1_)
+	rlca
+	ret c
+	ld hl, _RAM_C0EC_
+	ld a, (hl)
+	rlca
+	jp nc, +
+	rlca
+	jp c, ++
+	rlca
+	jp c, _LABEL_387_
+	rlca
+	jp c, _LABEL_3D0_
+	call _LABEL_427_
+	jr _LABEL_2D7_
+
++:
+	ld a, $84
+	ld (_RAM_C320_), a
+	ld b, $0A
+	call _LABEL_1B3_8
+	call _LABEL_23F0_
+	ld b, $28
+	call _LABEL_1B3_8
+	call _LABEL_3FD_
+	call _LABEL_3E4_174
+	call _LABEL_C5_21
+	jp _LABEL_7B_
+
+++:
+	ld a, $83
+	ld (_RAM_C320_), a
+	call _LABEL_2A1_
+	bit 4, (hl)
+	jr z, +
+	ld hl, $C0EC
+	; Data from 32A to 333 (10 bytes)
+	.db $CB $A6 $CD $71 $23 $CD $53 $1F $18 $09
+
++:
+	call _LABEL_2043_
+	call _LABEL_233F_
+	call _LABEL_1F10_
+	ld b, $F0
+-:
+	push bc
+	call _LABEL_18BF_
+	ei
+	halt
+	pop bc
+	djnz -
+	call _LABEL_3FD_
+	ld a, (_RAM_C0E1_)
+	or a
+	ret nz
+	ld hl, _RAM_C0E7_
+	inc (hl)
+	ld a, $64
+	cp (hl)
+	jr z, +
+	inc hl
+	inc (hl)
+	ld a, (hl)
+	cp $29
+	jr nz, ++
+	ld (hl), $01
+	inc hl
+	inc (hl)
+	jr ++
+
++:
+
+	
+	
 _LABEL_1E1F_62:
     xor a
     ld hl, _RAM_C0FA_
@@ -916,7 +1041,7 @@ _LABEL_28A4_6:
 
 
 ;empty labels
-_LABEL_2AE_169:
+
 _LABEL_45E_171:
 _LABEL_4BA_162:	
 
