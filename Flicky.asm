@@ -871,6 +871,87 @@ _LABEL_45E_171:
 	.db $21 $EC $C0 $36 $00 $CD $95 $73 $CD $08 $04 $CD $73 $01 $C9
 	
 _LABEL_474_172:
+	ld a, (_RAM_C0CC_)
+	inc a
+	and $03
+	ld (_RAM_C0CC_), a
+	add a, a
+	add a, a
+	ld e, a
+	add a, a
+	add a, e
+	ld e, a
+	ld d, $00
+	ld hl, _DATA_4F2_
+	add hl, de
+	ld de, _RAM_C0E7_
+	ld bc, $000C
+	ldir
+	call _LABEL_207B_173
+	ret
+
+_LABEL_495_58:
+	ld a, (_RAM_C101_)
+	and $C0
+	jr nz, _LABEL_4B4_59
+	ld hl, _RAM_C0CD_
+	ld a, (_RAM_C107_)
+	and $07
+	jr nz, _LABEL_4A7_60
+	inc (hl)
+_LABEL_4A7_60:
+	ld a, (hl)
+	ld e, a
+	ld d, $00
+	ld hl, _DATA_532_
+	add hl, de
+	ld a, (hl)
+	ld (_RAM_C101_), a
+	ret
+	
+_LABEL_4B4_59:
+	ld a, $FF
+	ld (_RAM_C0E1_), a
+	ret
+
+_LABEL_4BA_162:
+	ld hl, _RAM_C0CE_
+	inc (hl)
+	ld a, $08
+	cp (hl)
+	jr nz, _LABEL_4CA_163
+	ld (hl), $00
+	push hl
+	call _LABEL_2433_164
+	pop hl
+_LABEL_4CA_163:
+	ld a, (hl)
+	ld e, a
+	ld d, $00
+	ld hl, _DATA_522_
+	add hl, de
+	ex de, hl
+	ld hl, $2300
+	ld b, $08
+_LABEL_4D8_168:
+	push bc
+	push de
+	push hl
+	ld bc, $003A
+	call _LABEL_149_166
+	push de
+	ld de, $0800
+	add hl, de
+	pop de
+	call _LABEL_149_166
+	pop hl
+	inc hl
+	pop de
+	inc de
+	pop bc
+	djnz _LABEL_4D8_168
+	ret
+
 	
 	
 _LABEL_1E1F_62:
