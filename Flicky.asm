@@ -1130,7 +1130,75 @@ _LABEL_768_88:
 _LABEL_76E_106:	
 	.db $F3 $3A $55 $C1 $B7 $C0 $21 $EC $C0 $CB $46 $C8 $CB $66 $C0 $CB
 	.db $6E $C0 $CD $93 $08 $CD $C4 $08 $CD $1E $08 $C9
+
+_LABEL_78A_90:
+	ld hl, _RAM_C10D_
+	bit 3, (hl)
+	ret z
+	ld hl, _RAM_C117_
+	bit 7, (hl)
+	jr nz, _LABEL_7C2_91
+	ld a, (_RAM_C115_)
+	add a, $02
+	push hl 
+	call _LABEL_8B4_92
+	call _LABEL_D5_96
+	push af
+	inc hl
+	call _LABEL_D5_96
+	ld b, a
+	pop af
+	or b
+	pop hl
+	cp $04
+	jr c, _LABEL_7B7_98
+	cp $62
+	jr nc, _LABEL_7B7_98
+	inc (hl)
+	jr _LABEL_7F0_99
+
+_LABEL_7B7_98:
+	ld hl, _RAM_C117_
+	ld (hl), $C0
+	ld hl, _RAM_C10D_
+	set 3, (hl)
+	ret
+
+_LABEL_7C2_91:
+	ld a, (_RAM_C115_)
+	add a, $11
+	push hl
+	call _LABEL_8B4_92
+	call _LABEL_D5_96
+	push af
+	inc hl
+	call _LABEL_D5_96
+	ld b, a
+	pop af
+	or b
+	pop hl
+	cp $04
+	jr c, _LABEL_7E8_101
+	cp $62
+	jr nc, _LABEL_7E8_101
+	dec (hl)
+	ld a, (hl)
+	and $7F
+	jr nz, _LABEL_7F0_99
+	inc (hl)
+	jr _LABEL_7F0_99
+
+_LABEL_7E8_101:
+	ld (hl), $00
+	ld hl, _RAM_C10D_
+	res 3, (hl)
+	ret
+
+_LABEL_7F0_99:
 	
+
+
+
 	
 _LABEL_1E1F_62:
     xor a
