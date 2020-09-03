@@ -1429,6 +1429,116 @@ _LABEL_A1B_:
 	ret
 
 +:
+	ld a, e
+	ld hl, $0B34
+	ld bc, $0012
+	cpir
+	ret nz
+	ld a, (_RAM_C101_)
+	and $0C
+	ret nz
+	ld hl, _RAM_C10D_
+	ld a, (hl)
+	or $91
+	and $FD
+	ld (hl), a
+	ld a, $08
+	ld (_RAM_C110_), a
+	ret
+
+_LABEL_A9D_:
+	ld hl, _RAM_C10D_
+	bit 7, (hl)
+	ret z
+	ld a, (_RAM_C115_)
+	add a, $08
+	ld c, a
+	add a, $08
+	ld b, $02
+	ld hl, _RAM_C10D_
+	bit 0, (hl)
+	jr z, _LABEL_AE2_
+-:
+	push bc
+	call _LABEL_8B4_92
+	dec hl
+	call _LABEL_D5_96
+	ld hl, $0B58
+	push af
+	ld a, (_RAM_C111_)
+	ld bc, $0004
+	or a
+	jr z, +
+	ld bc, $0008
+	dec a
+	jr z, +
+	ld bc, $000C
+	dec a
+	jr z, +
+	ld bc, $0010
++:
+	pop af
+	cpir
+	pop bc
+	jr z, ++
+	ld a, c
+	djnz -
+	ret
+
+_LABEL_AE2_:
+	push bc
+	call _LABEL_8B4_92
+	inc hl
+	inc hl
+	call _LABEL_D5_96
+	ld hl, $0B68
+	push af
+	ld a, (_RAM_C111_)
+	ld bc, $0004
+	or a
+	jr z, +
+	ld bc, $0008
+	dec a
+	jr z, +
+	ld bc, $000C
+	dec a
+	jr z, +
+	ld bc, $0010
++:
+	pop af
+	cpir
+	pop bc
+	jr z, ++
+	ld a, c
+	djnz _LABEL_AE2_
+	ret
+
+++:
+	ld hl, _RAM_C10D_
+	ld a, (_RAM_C110_)
+	add a, $0C
+	ld (_RAM_C110_), a
+	set 5, (hl)
+	bit 1, (hl)
+	jr nz, +
+	set 1, (hl)
+	res 0, (hl)
+	ret
+	
++:
+	set 0, (hl)
+	res 1, (hl)
+	ret
+
+	; Data from B2C to B77 (76 bytes)
+	.db $04 $05 $06 $07 $08 $09 $60 $61 $63 $65 $67 $6C $6E $70 $75 $77
+	.db $79 $7E $80 $82 $87 $89 $8B $90 $92 $94 $A3 $A5 $AA $9A $9C $A1
+	.db $91 $93 $98 $88 $8A $8F $7F $81 $86 $76 $78 $7D $62 $64 $66 $6B
+	.db $62 $6D $6F $74 $62 $76 $78 $7D $62 $7F $81 $86 $62 $A2 $A4 $A6
+	.db $62 $99 $9B $9D $62 $90 $92 $94 $62 $87 $89 $8B
+	
+_LABEL_B78_:
+	ld hl, _RAM_C0EC_
 
 
 	
@@ -1760,7 +1870,7 @@ _LABEL_141A_:
 _LABEL_C4E_:
 _LABEL_13C4_:
 
-_LABEL_B78_:
+
 _LABEL_10DD_:
 _LABEL_17A9_:
 _LABEL_156D_:
