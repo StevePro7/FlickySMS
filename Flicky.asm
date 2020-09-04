@@ -2371,9 +2371,184 @@ _LABEL_1142_:
 	ret
 
 _LABEL_11DD_:
+	ld a, (ix+0)
+	and $F8
+	ld (ix+0), a
+	ld (ix+2), $28
+	inc (ix+1)
+	ld a, (ix+3)
+	cp $0F
+	jr z, +
+	inc (ix+1)
++:
+	ld bc, $0C08
+	ld a, (_RAM_C10E_)
+	add a, c
+	ld c, a
+	call _LABEL_1C62_
+	and $FE
+	cp $60
+	jr nz, +
+	ld bc, $1105
+	ld a, (_RAM_C10E_)
+	add a, c
+	ld c, a
+	call _LABEL_1C62_
+	cp $02
+	ret c
+	cp $62
+	jr c, _LABEL_1223_
+	ret z
+	ld a, (ix+3)
+	dec a
+	ret z
++:
+	dec (iy+2)
+	ret
 
+_LABEL_1223_:
+	ld a, $02
+	ld (iy+2), a
+	ret
 
+_LABEL_1229_:
+	inc (ix+0)
+	inc (ix+0)
+	ld bc, $1104
+	call _LABEL_1C62_
+	cp $02
+	jr c, +
+	cp $62
+	ret c
++:
+	ld a, r
+	or h
+	and $01
+	ld (iy+2), a
+	ret
 
+_LABEL_1245_:
+	ret
+
+_LABEL_1246_:
+	ld hl, _RAM_C1B1_
+	ld b, $02
+-:
+	push bc
+	push hl
+	ld a, $10
+	ld b, (hl)
+	add a, b
+	ld c, a
+	inc hl
+	ld a, $10
+	ld d, (hl)
+	add a, d
+	ld e, a
+	ld a, (ix+0)
+	add a, $08
+	cp b
+	jr c, _LABEL_126E_
+	cp c
+	jr nc, _LABEL_126E_
+	ld a, (ix+1)
+	add a, $04
+	cp d
+	jr c, _LABEL_126E_
+	cp e
+	jr c, +
+_LABEL_126E_:
+	pop hl
+	ld de, $0004
+	add hl, de
+	pop bc
+	djnz -
+	ret
+
++:
+	ld a, (iy+1)
+	ld (_RAM_C13E_), a
+	push iy
+	ld iy, _RAM_C125_
+	ld de, $0003
+	ld b, $08
+-:
+	push af
+	cp (iy+1)
+	jr nc, +
+	ld a, $FF
+	cp (iy+1)
+	jr z, +
+	ld (iy+1), $00
+	ld (iy+0), $01
++:
+	add iy, de
+	pop af
+	djnz -
+	pop iy
+	ld a, $87
+	ld (_RAM_C320_), a
+	jr _LABEL_126E_
+
+_LABEL_12AB_:
+	ld a, (_RAM_C1A9_)
+	sub $0C
+	ld (ix+0), a
+	ld a, (_RAM_C1AA_)
+	add a, $0C
+	ld (ix+1), a
+	inc (iy+0)
+	ret
+
+_LABEL_12BF_:
+	ld a, (ix+1)
+	sub $04
+	ld (ix+1), a
+	ld a, (iy+1)
+	dec a
+	rlca
+	rlca
+	ld e, a
+	ld b, a
+	rlca
+	ld c, a
+	ld a, (_RAM_C115_)
+	cp $50
+	jr c, +
+	sub $0C
+	sub c
+	jr ++
+
++:
+	add a, $18
+	add a, c
+++:
+	ld (ix+0), a
+	 ld a, $40
+	 add a, b
+	 ld (ix+2), a
+	 ld (ix+3), $0F
+	 inc (iy+0)
+	 ld a, $88
+	ld (_RAM_C320_), a
+	ld d, $00
+	ld hl, _DATA_1EF0_
+	add hl, de
+	ld de, _RAM_C0F3_
+	ld bc, $0004
+	ldir
+	call _LABEL_1DE3_
+	ret
+
+_LABEL_1307_:
+	ld hl, _RAM_C153_
+	inc (hl)
+	ld (iy+1), $FF
+	ld (iy+0), $FF
+	ret
+
+_LABEL_1314_:
+	
 
 _LABEL_1E1F_62:
     xor a
