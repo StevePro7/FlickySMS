@@ -2157,6 +2157,83 @@ _LABEL_102B_:
 	res 3, (iy+0)
 	ret
 
+_LABEL_105E_:
+	call _LABEL_FF0_
+	call _LABEL_FC6_
+	add a, b
+	ld (ix+0), a
+	call +++
+	bit 2, (iy+0)
+	jr nz, ++
+	ld b, $10
+-:
+	call _LABEL_10C8_
+	and $FE
+	cp $60
+	ret z
+	cp $04
+	jr c, +
+	cp $0A
+	ret c
++:
+	ld a, (ix+0)
+	cp $10
+	jr nc, +
+	inc (ix+1)
+	inc (ix+1)
+	ret
+
++:
+	dec (ix+0)
+	jr -
+
+++:
+	ld a, $05
+	cp (iy+1)
+	ret z
+	dec (iy+1)
+	ret
+
++++:
+	ld b, $11
+	bit 3, (iy+0)
+	jr nz, +
+	ld c, $10
+	jr ++
+
++:
+	ld c, $00
+++:
+	call _LABEL_10C8_
+	cp $02
+	jr c, +
+	cp $62
+	ret c
++:
+	res 4, (iy+0)	
+	res 2, (iy+0)
+	res 0, (iy+0)
+	res 1, (iy+0)
+	ret
+
+_LABEL_10C8_:
+	push bc
+	ld a, (_RAM_C10E_)
+	bit 3, (iy+0)
+	jr nz, +
+	xor $07
+	neg
++:
+	add a, c
+	ld c, a
+	call _LABEL_1C62_
+	pop bc
+	ret
+
+_LABEL_10DD_:
+	
+
+
 
 _LABEL_1E1F_62:
     xor a
