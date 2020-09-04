@@ -2030,7 +2030,7 @@ _LABEL_F05_:
 	dec (iy+2)
 	ret nz
 	ld (ix+3), $0F
-	ld (iy+0), $08
+	ld (iy+0), $00
 	ret
 
 ; Data from F12 to F92 (129 bytes)	
@@ -2045,9 +2045,119 @@ _DATA_F12_:
 	.db $A8 $6A $73 $7C $85 $8E $97 $A0 $A9 $6B $74 $7D $86 $8F $98 $A1
 	.db $AA
 	
-	
-	
-	
+_LABEL_F93_:
+	bit 2, (iy+0)
+	jp nz, _LABEL_105E_
+	ld bc, $020C
+	bit 3, (iy+0)
+	jr z, +
+	ld c, $04
++:
+	call _LABEL_10C8_
+	cp $62
+	jr nc, _LABEL_FD5_
+	cp $04
+	jp c, _LABEL_FD5_
+	call _LABEL_FF0_
+	call _LABEL_FC6_
+	sub b
+	ld (ix+0), a
+	inc (iy+1)
+	ld a, (iy+1)
+	cp $11
+	ret nz
+	jr ++
+
+_LABEL_FC6_:
+	ld a, (iy+1)
+	ld c, a
+	ld b, $00
+	ld hl, _DATA_F12_
+	add hl, bc
+	ld b, (hl)
+	ld a, (ix+0)
+	ret
+
+_LABEL_FD5_:
+	ld b, $03
+	call _LABEL_10C8_
+	cp $60
+	jr z, +
+	cp $61
+	jr z, +
+	inc (ix+0)
+	jr _LABEL_FD5_
+
++:
+	ld (iy+1), $13
+++:
+	set 2, (iy+0)
+	ret
+
+_LABEL_FF0_:
+	bit 0, (iy+0)
+	jr nz, +
+	bit 1, (iy+0)
+	jr nz, ++
+	ld b, $01
+--:
+	ld a, (ix+1)
+	bit 3, (iy+0)
+	jr nz, _LABEL_1015_
+-:
+	inc (ix+1)
+	call _LABEL_102B_
+	bit 3, (iy+0)
+	ret nz
+	djnz -
+	ret
+
+_LABEL_1015_:
+	dec (ix+1)
+	call _LABEL_102B_
+	bit 3, (iy+0)
+	ret z
+	djnz _LABEL_1015_
+	ret
+
++:
+	ld b, $04
+	jr --
+
+++:
+	ld b, $03
+	jr --
+
+_LABEL_102B_:
+	push bc
+	ld c, $FF
+	bit 3, (iy+0)
+	jr nz, +
+	ld c, $11
++:
+	ld b, $0C
+	call _LABEL_10C8_
+	cp $62
+	jr nc, +
+	ld b, $04
+	call _LABEL_10C8_
+	cp $62
+	pop bc
+	ret c
+	push bc
++:
+	pop bc
+	set 1, (iy+3)
+	bit 3, (iy+0)
+	jr nz, +
+	set 3, (iy+0)
+	ret
+
++:
+	res 3, (iy+0)
+	ret
+
+
 _LABEL_1E1F_62:
     xor a
     ld hl, _RAM_C0FA_
