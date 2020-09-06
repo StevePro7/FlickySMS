@@ -7,8 +7,8 @@ SLOT 2 $8000
 DEFAULTSLOT 2	
 .ENDME	
 .ROMBANKMAP	
-BANKSTOTAL 2	
-BANKSIZE $4000	
+BANKSTOTAL 2
+BANKSIZE $4000
 BANKS 2
 .ENDRO	
 	
@@ -2548,7 +2548,164 @@ _LABEL_1307_:
 	ret
 
 _LABEL_1314_:
+
+_LABEL_132F_:
+_LABEL_1346_:
+-:
++:
+++:
++:
+_LABEL_13BE_:
+_LABEL_13C4_:
++:
+
+; Data from 1400 to 1419 (26 bytes)	
+_DATA_1400_:	
+	.db $00 $00 $00 $01 $01 $02 $01 $01 $00 $00 $00 $00 $00 $FF $FF $FE
+	.db $FF $FF $00 $00 $18 $20 $28 $2C $24 $1C
+
+_LABEL_141A_:
+_LABEL_143D_:
+
+-:
++:
+_LABEL_1470_:
++:
+++:
+-:
++:
+_LABEL_14D0_:
++:
+++:
+--:
+-:
++:
+_LABEL_156D_:
+-:
++:
+++:
++:
+_LABEL_15C5_:
++:
+++:
++:
+++:
+_LABEL_1603_:
++:
++:
++:
++:
++:
++:
++:
+_LABEL_1682_:
+	pop af
+	ret
+
+_LABEL_1684_:
++:
++:
+-:
+_LABEL_16D7_:
+	inc (iy+0)
+++:
+	inc (iy+0)
+	jr _LABEL_1682_
 	
+_LABEL_16DF_:
+_LABEL_16EA_:
++:
+_LABEL_1745_:
++:
++:
+_LABEL_17A7_:
+	pop af
+	ret
+
+_LABEL_17A9_:
++:
+
+; Jump Table from 17C8 to 17CF (4 entries, indexed by _RAM_C156_)	
+_DATA_17C8_:	
+	.dw _LABEL_17D0_ _LABEL_17D8_ _LABEL_17E0_ _LABEL_17D8_
+
+; 1st entry of Jump Table from 17C8 (indexed by _RAM_C156_)	
+_LABEL_17D0_:
+	ld de, _DATA_3655_
+	ld hl, _DATA_36E5_
+	jr +
+
+; 2nd entry of Jump Table from 17C8 (indexed by _RAM_C156_)	
+_LABEL_17D8_:
+	ld de, _DATA_3775_
+	ld hl, _DATA_3895_
+	jr +
+
+; 3rd entry of Jump Table from 17C8 (indexed by _RAM_C156_)	
+	ld de, _DATA_3805_
+	ld hl, _DATA_3925_
+	jr +
+
++:
+
+_LABEL_17FA_:
++:
++:
++:
+++:
++:
+++:
++:
+++:
++:
+
+_LABEL_18BF_:
+
+; Data from 18E1 to 18F0 (16 bytes)	
+_DATA_18E1_:	
+	.db $F0 $E0 $B0 $A0 $30 $20 $C0 $70 $50 $40 $60 $80 $90 $D0 $30 $20
+
+
+_LABEL_18F1_:
+
+-:
++:
+++:
++:
++:
++:
+++:
++++:
++:
+++:
+_LABEL_19AB_:
++:
+_LABEL_19EB_:
++:
+++:
++++:
+++++:
+_LABEL_1A3F_:
+	ret
+	
+_LABEL_1A40_:
+
+_LABEL_1A58_:
+
+_LABEL_1AA1_:
+_LABEL_1AB5_177:
+
+_LABEL_1ABB_178:
+
+_LABEL_1AD3_180:
+
+_LABEL_1B04_179:
+
+_LABEL_1B20_181:
+
+
+
+_LABEL_1E0D_:
 
 _LABEL_1E1F_62:
     xor a
@@ -2864,7 +3021,7 @@ _LABEL_28A4_6:
 
 ;empty labels
 
-_DATA_1400_:
+
 _DATA_1EF0_:
 _LABEL_1DE3_:
 
@@ -2880,20 +3037,20 @@ _LABEL_1CE4_:
 
 
 
-_LABEL_141A_:
-
-_LABEL_13C4_:
 
 
 
-_LABEL_17A9_:
-_LABEL_156D_:
 
-_LABEL_18F1_
+
+_LABEL_17E0_:
+
+
+
+
 :_LABEL_156D_:
-_LABEL_17FA_:
+
 _LABEL_1F10_:
-_LABEL_18BF_:
+
 
 _LABEL_2043_:
 _LABEL_233F_:
