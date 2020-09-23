@@ -1,4 +1,4 @@
-; This disassembly was created using Emulicious (http://www.emulicious.net)	
+; This disassembly was created using Emulicious (http://www.emulicious.net)
 .MEMORYMAP	
 SLOTSIZE $4000	
 SLOT 0 $0000	
@@ -8,7 +8,7 @@ DEFAULTSLOT 2
 .ENDME	
 .ROMBANKMAP	
 BANKSTOTAL 2	
-BANKSIZE $4000	
+BANKSIZE $4000
 BANKS 2	
 .ENDRO	
 	
@@ -16,7 +16,7 @@ BANKS 2
 _RAM_C000_ db	
 .ende	
 	
-.enum $C0C9 export	
+.enum $C0C9 export
 _RAM_C0C9_ db	
 _RAM_C0CA_ db	
 _RAM_C0CB_ db	
@@ -7806,5 +7806,5 @@ _LABEL_7468_:
 		ret
 	
 	; Data from 747C to 7FFF (2948 bytes)
-	.incbin ...
-	
+	;.incbin ...
+	.incbin "FilesA_747C-7FFF.dat"
