@@ -20,3 +20,24 @@ call _LABEL_1C_
 populates the first palette with 14x colors
 _DATA_2A_:	
 	.db $02 $80 $82 $81 $0E $82 $FF $83 $03 $84 $76 $85 $03 $86
+
+_LABEL_254D_:
+large method that loads a bunch of tiles into VRAM
+
+_LABEL_23FE_
+turn background crimson
+
+_LABEL_1D79_:
+draw the top and bottom parts
+
+
+_LABEL_1CE4_:	
+big method
+
+
+_LABEL_1D59_:
+Push Start Button
+SEGA 1984
+
+_LABEL_BC_:	
+Turn screen on
