@@ -200,28 +200,64 @@ _RAM_C324_ dsb $a8
 .ORG $0000	
 	
 _LABEL_0_:	
+		di
+		ld sp, $C0C8
+		im 1
+		call _LABEL_7395_
+		ld hl, _RAM_C000_
+		ld bc, $0400
 -:	
+		ld (hl), $00
+		inc hl
+		dec bc
+		ld a, c
+		or b
+		jr nz, -
+		call _LABEL_2884_
+		jr _LABEL_70_
 	
 _LABEL_1C_:	
+		in a, (Port_VDPStatus)
+		ld b, $0E
 		ld hl, _DATA_2A_
 -:	
+		ld a, (hl)
+		out (Port_VDPAddress), a
+		inc hl
+		djnz -
+		ret
 	
 ; Data from 2A to 37 (14 bytes)	
 _DATA_2A_:	
 	.db $02 $80 $82 $81 $0E $82 $FF $83 $03 $84 $76 $85 $03 $86
 	
 _LABEL_38_:	
+		jp _LABEL_209_
 	
 	; Data from 3B to 65 (43 bytes)
 	.dsb 43, $00
 	
 _LABEL_66_:	
+		jp _LABEL_1E9_
 	
 	; Data from 69 to 6F (7 bytes)
 	.db $00 $00 $00 $00 $00 $00 $00
 	
 _LABEL_70_:	
+		ld b, $0A
+		call _LABEL_1B3_
+		call _LABEL_1C_
+		call _LABEL_1BF_
 _LABEL_7B_:	
+		di
+		call _LABEL_C5_
+		call _LABEL_1BF_
+		call _LABEL_254D_
+		call _LABEL_23FE_
+		call _LABEL_BC_
+		ld a, $01
+		ld (_RAM_C0E1_), a
+		ld b, $A0
 -:	
 	; Data from B5 to BB (7 bytes)
 	.db $7E $07 $DA $AE $02 $18 $BF
@@ -237,14 +273,51 @@ _LABEL_D5_:
 _LABEL_DD_:	
 	
 _LABEL_E5_:	
+		push bc
+		push af
+		call _LABEL_F6_
 -:	
+		pop af
+		out (Port_VDPData), a
+		push af
+		dec bc
+		ld a, b
+		or c
+		jr nz, -
+		pop af
+		pop bc
+		ret
 	
 _LABEL_F6_:	
-	
+		ld a, l
+		out (Port_VDPAddress), a
+		ld a, h
+		or $40
+		out (Port_VDPAddress), a
+		ret
 +:	
-	
+		ld a, l
+		out (Port_VDPAddress), a
+		ld a, h
+		out (Port_VDPAddress), a
+		ret
+		
 _LABEL_106_:	
+		di
+		call _LABEL_F6_
+		push de
+		push bc
 -:	
+		ld a, (de)
+		out (Port_VDPData), a
+		inc de
+		dec bc
+		ld a, c
+		or b
+		jr nz, -
+		pop bc
+		pop de
+		ret
 	
 _LABEL_118_:	
 -:	
@@ -266,10 +339,25 @@ _LABEL_173_:
 +:	
 	
 _LABEL_1B3_:	
+	ld de, $FFFF
 --:	
+	ld hl, $39DE
 -:	
+	add hl, de
+	jr c, -
+	djnz --
+	ret
 	
 _LABEL_1BF_:	
+		ld hl, $3800
+		ld bc, $0300
+		ld a, $20
+		call _LABEL_E5_
+		ld hl, _RAM_C0EC_
+		bit 5, (hl)
+		ret nz
+		ld de, _RAM_C1A1_
+		ld b, $20
 -:	
 		ld hl, _DATA_1E5_
 	
@@ -1300,8 +1388,29 @@ _LABEL_27D9_:
 +:	
 	
 _LABEL_2884_:	
+	ld a, $92
+	out (_PORT_DF_), a
+	ld a, $55
+	out (_PORT_DE_), a
+	in a, (_PORT_DE_)
+	cp $55
+	ld c, $00
+	jr z, +
+	ld c, $FF
 +:	
+	ld a, $AA
+	out (_PORT_DE_), a
+	in a, (_PORT_DE_)
+	cp $AA
+	ld a, $00
+	jr z, +
+	ld a, $FF
 +:	
+	or c
+	ld (_RAM_C0CB_), a
+	ld a, $07
+	out (_PORT_DE_), a
+	ret
 	
 ; Data from 28AD to 304C (1952 bytes)	
 _DATA_28AD_:	
@@ -3335,6 +3444,11 @@ _LABEL_7395_:
 	
 ; Data from 739F to 73A2 (4 bytes)	
 _DATA_739F_:	
+	ld hl, _DATA_739F_
+	ld c, Port_PSG
+	ld b, $04
+	otir
+	ret
 	.db $9F $BF $DF $FF
 	
 ; Data from 73A3 to 7434 (146 bytes)	
