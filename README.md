@@ -41,3 +41,15 @@ SEGA 1984
 
 _LABEL_BC_:	
 Turn screen on
+
+
+_LABEL_4BA_:
+flast Push start button
+
+
+_LABEL_207B_:	
+big method
+
+
+		call _LABEL_25F2_
+		load the demo level
