@@ -62,3 +62,12 @@ big function	does this transition to start game?
 _LABEL_4BA_:	
 _LABEL_149_:	
 code is here during the flashing title screen
+
+
+Finally got title screen flashing
+_LABEL_78A_:    
+_LABEL_8B4_:    
+_LABEL_1C93_:    
+_LABEL_6F22_:    
+_LABEL_70F4_:    
+_LABEL_7214_:    

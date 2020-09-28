@@ -482,14 +482,14 @@ _LABEL_173_:
 		ret
 	
 _LABEL_1B3_:	
-	ld de, $FFFF
+		ld de, $FFFF
 --:	
-	ld hl, $39DE
+		ld hl, $39DE
 -:	
-	add hl, de
-	jr c, -
-	djnz --
-	ret
+		add hl, de
+		jr c, -
+		djnz --
+		ret
 	
 _LABEL_1BF_:	
 		ld hl, $3800
@@ -591,6 +591,14 @@ _LABEL_209_:
 		ld hl, _RAM_C10A_
 		inc (hl)
 +:	
+		ld hl, _RAM_C108_
+		inc (hl)
+		inc hl
+		inc (hl)
+		ld a, (_RAM_C0E1_)
+		or a
+		jr nz, +
+		call _LABEL_6F22_
 +:	
 _LABEL_27F_:	
 		pop hl
@@ -913,7 +921,31 @@ _LABEL_74A_:
 _LABEL_76E_:	
 	
 _LABEL_78A_:	
-	
+		ld hl, _RAM_C10D_
+		bit 3, (hl)
+		ret z
+		ld hl, _RAM_C117_
+		bit 7, (hl)
+		jr nz, +
+		ld a, (_RAM_C115_)
+		add a, $02
+		push hl
+		call _LABEL_8B4_
+		call _LABEL_D5_
+		push af
+		inc hl
+		call _LABEL_D5_
+		ld b, a
+		pop af
+		or b
+		pop hl
+		cp $04
+		jr c, _LABEL_7B7_
+		cp $62
+		jr nc, _LABEL_7B7_
+		inc (hl)
+		jr ++
+		
 _LABEL_7B7_:	
 	
 +:	
@@ -943,6 +975,16 @@ _LABEL_893_:
 ++:	
 	
 _LABEL_8B4_:	
+		and $F8
+		rrca
+		rrca
+		rrca
+		ld h, a
+		ld e, $20
+		call _LABEL_1C2D_
+		ld de, $380F
+		add hl, de
+		ret
 	
 _LABEL_8C4_:	
 -:	
@@ -1488,11 +1530,34 @@ _LABEL_1C62_:
 ++:	
 	
 _LABEL_1C93_:	
+		di
 -:	
-	
+		push bc
+		ld a, (_RAM_C0E0_)
+		or a
+		jr z, +
+		ld b, $00
+		call _LABEL_138_
+		jr ++
+		
 +:	
+		ld b, $00
+		call _LABEL_106_
+		ex de, hl
+		add hl, bc
+		ex de, hl
 ++:	
-	
+		push de
+		ld de, $0020
+		add hl, de
+		pop de
+		pop bc
+		ld a, h
+		cp $3B
+		ret z
+		djnz -
+		ret
+		
 _LABEL_1CB8_:	
 --:	
 -:	
@@ -4428,8 +4493,18 @@ _DATA_6DDC_:
 	.db $C3 $22 $6F $C3 $95 $73
 	
 _LABEL_6F22_:	
+		call +
+		ld ix, _RAM_C324_
+		ld b, $06
 -:	
-	
+		push bc
+		bit 7, (ix+0)
+		call nz, _LABEL_70F4_
+		ld de, $001C
+		add ix, de
+		pop bc
+		djnz -
+		ret
 +:	
 	
 	; Data from 6F61 to 70F3 (403 bytes)
@@ -4461,7 +4536,23 @@ _LABEL_6F22_:
 	.db $20 $C3 $C9
 	
 _LABEL_70F4_:	
-	
+		ld e, (ix+3)
+		ld d, (ix+4)
+		inc de
+		ld (ix+3), e
+		ld (ix+4), d
+		ld l, (ix+5)
+		ld h, (ix+6)
+		or a
+		sbc hl, de
+		call z, _LABEL_7214_
+		ld e, (ix+17)
+		ld d, (ix+18)
+		ld a, e
+		or d
+		jr nz, +
+		ld (ix+23), $0F
+		jp _LABEL_71BF_
 +:	
 	
 +:	
@@ -4492,12 +4583,64 @@ _LABEL_71DD_:
 ++++:	
 	
 _LABEL_7214_:	
+		ld e, (ix+7)
+		ld d, (ix+8)
 _LABEL_721A_:	
+		ld a, (de)
+		inc de
+		or a
+		jp m, _LABEL_7299_
+		bit 3, (ix+0)
+		jr nz, _LABEL_727F_
+		or a
+		jr z, +
+		add a, (ix+9)
 +:	
 		ld hl, _DATA_73A3_
+		ld c, a
+		ld b, $00
+		add hl, bc
+		add hl, bc
+		ld a, (hl)
+		ld (ix+17), a
+		inc hl
+		ld a, (hl)
+		ld (ix+18), a
+		bit 5, (ix+0)
+		jr z, _LABEL_7259_
+		ld a, (de)
+		inc de
+		add a, (ix+9)
 		ld hl, _DATA_73A3_
+		ld c, a
+		ld b, $00
+		add hl, bc
+		add hl, bc
+		ld a, (hl)
+		ld (ix+21), a
+		inc hl
+		ld a, (hl)
+		ld (ix+22), a
 _LABEL_7259_:	
-	
+		push de
+		ld a, (de)
+		ld h, a
+		ld e, (ix+2)
+		call _LABEL_7435_
+		pop de
+		ld (ix+5), l
+		ld (ix+6), h
+		xor a
+		ld (ix+15), a
+		ld (ix+16), a
+		inc de
+		ld (ix+7), e
+		ld (ix+8), d
+		xor a
+		ld (ix+3), a
+		ld (ix+4), a
+		ret
+		
 _LABEL_727F_:	
 	
 _LABEL_7299_:	
