@@ -51,5 +51,14 @@ _LABEL_207B_:
 big method
 
 
-		call _LABEL_25F2_
-		load the demo level
+call _LABEL_25F2_
+load the demo level
+		
+		
+_LABEL_209_:
+big function	does this transition to start game?
+
+
+_LABEL_4BA_:	
+_LABEL_149_:	
+code is here during the flashing title screen
