@@ -653,7 +653,7 @@ _LABEL_2AE_:
 	
 ; Data from 2C3 to 2CA (8 bytes)	
 _DATA_2C3_:	
-	.db $01 $01 $00 $00 $0C $80 $00 $02
+	.db $01 $04 $00 $00 $0C $80 $00 $02
 	
 ; Data from 2CB to 2D6 (12 bytes)	
 _DATA_2CB_:	

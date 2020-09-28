@@ -75,3 +75,55 @@ _LABEL_7214_:
 
 Another bunch of calls
 _LABEL_427_:
+
+
+Game start
+trap when port1 fire pressed
+e.g.
+_LABEL_27D9_
+
+Game start setup
+_LABEL_207B_:	
+
+
+is this the game loop
+_LABEL_2D7_:	
+
+
+Drawing the level
+_LABEL_1CFA_:	
+
+
+
+Trying to guess level stored in RAM		
+_LABEL_1CE4_:	
+ld a, (_RAM_C0E8_)	; _RAM_C0E8_ = $C0E8
+
+
+LEVEL found
+_LABEL_1CE4_:
+
+but the code to set the nest must be in a different spot
+
+_RAM_C0E8_
+stores the level and everything is indexed
+; Pointer Table from 480C to 485B (40 entries, indexed by _RAM_C0E8_)	
+
+
+Are all the important variables stored in RAM from C0E7 onwards??
+_LABEL_2AE_:	
+
+ld hl, _DATA_2C3_
+
+_DATA_2C3_:	
+	.db $01 $01 $00 $00 $0C $80 $00 $02
+	
+; Data from 2CB to 2D6 (12 bytes)	
+_DATA_2CB_:	
+	.dsb 12, $00
+	
+
+
+so to start level 9 and have 7 lives
+_DATA_2C3_:	
+	.db $01 $09 $00 $00 $0C $80 $00 $06
