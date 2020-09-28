@@ -259,7 +259,7 @@ _LABEL_7B_:
 		ld (_RAM_C0E1_), a
 		ld b, $A0
 -:	
-		;ei			; TODO don't forget to remove this
+		;ei
 		push bc
 		call _LABEL_4BA_
 		pop bc
@@ -600,6 +600,8 @@ _LABEL_209_:
 		jr nz, +
 		call _LABEL_6F22_
 +:	
+		ld a, $01
+		ld (_RAM_C102_), a
 _LABEL_27F_:	
 		pop hl
 		pop de
@@ -658,28 +660,141 @@ _DATA_2CB_:
 	.dsb 12, $00
 	
 _LABEL_2D7_:	
+		;ei
+		ld a, (_RAM_C0C9_)
+		or a
+		call nz, _LABEL_417_
+		ld a, (_RAM_C0E1_)
+		rlca
+		ret c
+		ld hl, _RAM_C0EC_
+		ld a, (hl)
+		rlca
+		jp nc, +
+		rlca
+		jp c, ++
+		rlca
+		jp c, _LABEL_387_
+		rlca
+		jp c, _LABEL_3D0_
+		call _LABEL_427_
+		jr _LABEL_2D7_
 	
 +:	
-	
+		ld a, $84
+		ld (_RAM_C320_), a
+		ld b, $0A
+		call _LABEL_1B3_
+		call _LABEL_23F0_
+		ld b, $28
+		call _LABEL_1B3_
+		call _LABEL_3FD_
+		call _LABEL_3E4_
+		call _LABEL_C5_
+		jp _LABEL_7B_
+		
 ++:	
+		ld a, $83
+		ld (_RAM_C320_), a
+		call _LABEL_2A1_
+		bit 4, (hl)
+		jr z, +
+		ld hl, $C0EC
 	; Data from 32A to 333 (10 bytes)
 	.db $CB $A6 $CD $71 $23 $CD $53 $1F $18 $09
 	
 +:	
+		call _LABEL_2043_
+		call _LABEL_233F_
+		call _LABEL_1F10_
+		ld b, $F0
 -:	
-	
+		push bc
+		call _LABEL_18BF_
+		ei
+		halt
+		pop bc
+		djnz -
+		call _LABEL_3FD_
+		ld a, (_RAM_C0E1_)
+		or a
+		ret nz
+		ld hl, _RAM_C0E7_
+		inc (hl)
+		ld a, $64
+		cp (hl)
+		jr z, +
+		inc hl
+		inc (hl)
+		ld a, (hl)
+		cp $29
+		jr nz, ++
+		ld (hl), $01
+		inc hl
+		inc (hl)
+		jr ++
+		
 +:	
 		ld hl, _DATA_2C3_
+		ld de, _RAM_C0E7_
+		ld bc, $0005
+		ldir
 ++:	
+		call _LABEL_207B_
 		ld hl, _DATA_2CB_
+		ld de, _RAM_C0EF_
+		ld bc, $0004
+		ldir
+		ld hl, _RAM_C0EC_
+		res 6, (hl)
+		jp _LABEL_2D7_
 	
 _LABEL_387_:	
+		ld a, $85
+		ld (_RAM_C320_), a
+		ld b, $40
 -:	
-	
+		push bc
+		;ei
+		call _LABEL_2A1_
+		call _LABEL_B78_
+		;ei
+		call _LABEL_2A1_
+		call _LABEL_10DD_
+		call _LABEL_156D_
+		pop bc
+		djnz -
+		ld a, (_RAM_C0E1_)
+		or a
+		ret nz
+		ld hl, _RAM_C10E_
+		ld de, _RAM_C0E3_
+		ld bc, $0002
+		ldir
+		ld a, (_RAM_C0EE_)
+		or a
+		jr z, +
+		dec a
+		ld (_RAM_C0EE_), a
+		call _LABEL_207B_
+		ld hl, _RAM_C0EC_
+		res 5, (hl)
+		jp _LABEL_2D7_
+		
 +:	
-	
+		ld hl, _RAM_C0EC_
+		ld (hl), $00
+		jp _LABEL_2D7_
+		
 _LABEL_3D0_:	
-	
+		call _LABEL_2A1_
+		ld hl, _RAM_C0EC_
+		set 0, (hl)
+		call _LABEL_17FA_
+		call _LABEL_18F1_
+		call _LABEL_17A9_
+		jp _LABEL_2D7_
+		
 _LABEL_3E4_:	
 		ld hl, _RAM_C0FF_
 		ld bc, $0122
@@ -697,14 +812,52 @@ _LABEL_3F4_:
 		ret
 		
 _LABEL_3FD_:	
+		ld hl, _RAM_C0EC_
+		bit 5, (hl)
+		ret nz
+		ld hl, _RAM_C1A1_
+		ld b, $80
 -:	
-	
+		ld a, b
+		and $03
+		jr nz, +
+		ld (hl), $E0
+		jr ++
+		
 +:	
+		ld (hl), $00
 ++:	
-	
+		inc hl
+		djnz -
+		ret
+		
 _LABEL_417_:	
-	
+		push bc
+		push de
+		push hl
+		call _LABEL_7395_
+		pop hl
+		pop de
+		pop bc
+		ld a, (_RAM_C0C9_)
+		or a
+		ret z
+		jr _LABEL_417_
+		
 _LABEL_427_:	
+		;ei
+		xor a
+		ld (_RAM_C102_), a
+		ld a, (_RAM_C0C9_)
+		or a
+		call nz, _LABEL_417_
+		ld a, (_RAM_C155_)
+		or a
+		jr nz, +
+		ld a, (_RAM_C10D_)
+		bit 7, a
+		jr z, ++
+		call _LABEL_5E2_
 -:	
 +:	
 	
@@ -825,13 +978,101 @@ _DATA_532_:
 	.dsb 11, $00
 	
 _LABEL_5E2_:	
+		ld a, (_RAM_C10D_)
+		push af
+		ld de, _RAM_C113_
+		ld a, (_RAM_C10D_)
+		ld (de), a
+		inc de
+		ld a, (_RAM_C111_)
+		ld (de), a
+		pop af
+		ld hl, _RAM_C10E_
+		rrca
+		jr c, +
+		rrca
+		ret nc
+		ld a, (_RAM_C111_)
+		add a, (hl)
+		ld b, a
+		and $07
+		ld (hl), a
+		ld a, b
+		cp $08
+		jr c, ++
+		inc hl
+		ld a, (hl)
+		dec a
+		and $1F
+		ld (hl), a
+		ld hl, _RAM_C10D_
+		set 6, (hl)
+		jr ++
 	
 +:	
+		ld a, (_RAM_C111_)
+		neg
+		add a, (hl)
+		ld b, a
+		and $07
+		ld (hl), a
+		ld a, b
+		and $F8
+		jr z, ++
+		inc hl
+		ld a, (hl)
+		inc a
+		and $1F
+		ld (hl), a
+		ld hl, _RAM_C10D_
+		set 6, (hl)
 ++:	
-	
+		ld a, (_RAM_C10F_)
+		ld hl, $3840
+		ld e, a
+		ld d, $00
+		add hl, de
+		ld de, $480C
+		ld b, $14
+		call _LABEL_1CE4_
+		;ei
+		ld hl, _RAM_C10D_
+		res 6, (hl)
+		call +
+		call _LABEL_78A_
+		;ei
+		ret
+		
 +:	
+		ld a, (_RAM_C113_)
+		ld b, a
+		ld a, (_RAM_C114_)
+		bit 0, b
+		jr z, +
+		neg
 +:	
+		ld hl, _RAM_C112_
+		add a, (hl)
+		and $0F
+		ld (hl), a
+		add a, a
+		ld e, a
+		ld d, $00
 		ld hl, _DATA_686_
+		add hl, de
+		ld e, (hl)
+		inc hl
+		ld d, (hl)
+		ld hl, $0000
+		ld bc, $0020
+		call _LABEL_106_
+		ld hl, $0020
+		add hl, de
+		ex de, hl
+		ld hl, $1000
+		ld bc, $0020
+		call _LABEL_106_
+		ret
 	
 ; Pointer Table from 686 to 6A5 (16 entries, indexed by _RAM_C112_)	
 _DATA_686_:	
@@ -966,7 +1207,14 @@ _LABEL_81E_:
 +:	
 ++:	
 _LABEL_87D_:	
-	
+		ld bc, $0030
+		ld hl, $2020
+		call _LABEL_118_
+		ld hl, $2820
+		call _LABEL_118_
+		ld hl, $3020
+		call _LABEL_118_
+		ret
 _LABEL_893_:	
 		ld de, _DATA_8ED_
 	
@@ -1057,7 +1305,39 @@ _LABEL_AE2_:
 	.db $62 $99 $9B $9D $62 $90 $92 $94 $62 $87 $89 $8B
 	
 _LABEL_B78_:	
+		ld hl, _RAM_C0EC_
+		bit 3, (hl)
+		ret nz
+		ld a, (_RAM_C107_)
+		and $02
+		ret nz
+		ld a, (_RAM_C11A_)
+		inc a
+		ld (_RAM_C11A_), a
+		and $07
+		add a, a
+		ld e, a
+		ld d, $00
 		ld hl, _DATA_BB9_
+		add hl, de
+		push hl
+		ld e, (hl)
+		inc hl
+		ld d, (hl)
+		ld hl, $0020
+		ld bc, $0030
+		call _LABEL_106_
+		ld hl, $0820
+		call _LABEL_106_
+		ld hl, $1020
+		call _LABEL_106_
+		pop hl
+		ld de, $0010
+		add hl, de
+		ld e, (hl)
+		inc hl
+		ld d, (hl)
+		jp _LABEL_87D_
 	
 ; Pointer Table from BB9 to BC8 (8 entries, indexed by _RAM_C11A_)	
 _DATA_BB9_:	
@@ -1748,19 +2028,60 @@ _LABEL_1E53_:
 		ret
 	
 _LABEL_1E62_:	
+		push de
+		push hl
+		ld de, _RAM_C0CF_
+		ld bc, $0008
+		ldir
+		pop hl
+		call _LABEL_1FDF_
+		pop hl
+		ld a, (_RAM_C0DF_)
+		cp $04
+		jr nz, +
+		ld de, _RAM_C0DE_
+		ld bc, $0807
+		jp +++
 	
 +:	
-	
+		cp $02
+		jr c, ++
+		jr z, +
+		ld de, _RAM_C0DC_
+		ld bc, $0605
+		jp +++
 +:	
-	
+		ld de, _RAM_C0DA_
+		ld bc, $0403
+		jp +++
 ++:	
-	
+		ld de, _RAM_C0D8_
+		ld bc, $0201
+		jp +++
+		
 +++:	
+		di
+		call _LABEL_F6_
 -:	
-	
+		ld a, c
+		or a
+		jr z, +
+		dec c
+		ld a, (de)
+		cp $30
+		jr nz, +
+		ld a, $20
+		jr ++
 +:	
+		ld c, $00
+		ld a, (de)
 ++:	
-	
+		out (Port_VDPData), a
+		dec de
+		djnz -
+		ei
+		ret
+		
 _LABEL_1EBE_:	
 	
 +:	
@@ -1778,8 +2099,44 @@ _DATA_1EF4_:
 	.db $00 $10 $00 $00 $00 $20 $00 $00 $00 $50 $00 $00
 	
 _LABEL_1F10_:	
+		ld hl, _RAM_C0F1_
+		ld a, (hl)
+		or a
+		jp nz, _LABEL_2364_
+		dec hl
+		ld a, (hl)
+		ld b, $00
+		cp $20
+		jr c, +
+		inc b
+		cp $30
+		jr c, +
+		inc b
+		cp $40
+		jr c, +
+		inc b
+		cp $50
+		jr c, +
+		inc b
 +:	
+		ld a, b
+		rlca
+		rlca
+		ld e, a
+		ld d, $00
 		ld hl, _DATA_1FA1_
+		add hl, de
+		push hl
+		ld a, $03
+		ld (_RAM_C0DF_), a
+		ld de, $38D3
+		call _LABEL_1E62_
+		pop hl
+		ld de, _RAM_C0F3_
+		ld bc, $0004
+		ldir
+		call _LABEL_1DE3_
+		ret
 	
 	; Data from 1F53 to 1FA0 (78 bytes)
 	.db $21 $CF $02 $11 $F3 $C0 $01 $04 $00 $ED $B0 $21 $B5 $1F $3A $53
@@ -2162,7 +2519,12 @@ _LABEL_23BC_:
 _LABEL_23E3_:	
 	
 _LABEL_23F0_:	
+		ld hl, $392B
 		ld de, _DATA_2544_
+		ld bc, $0009
+		call _LABEL_106_
+		;ei
+		ret
 	
 _LABEL_23FE_:	
 		ld bc, $0D87

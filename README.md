@@ -71,3 +71,7 @@ _LABEL_1C93_:
 _LABEL_6F22_:    
 _LABEL_70F4_:    
 _LABEL_7214_:    
+
+
+Another bunch of calls
+_LABEL_427_:
