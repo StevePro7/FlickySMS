@@ -21,25 +21,39 @@ How do I work this out?
 
 A.
 Open Flicky.sg using Emulicious emulator
-Debugging | dump out the disassembled Z80 asm code into notepad "Emulicious.asm"
-deubg | step thru code
-find "IO Port 1" reference 
+Debugging window | Run menu | Suspend on open
+Debug | step thru code
+find "Port_IOPort1" reference
+e.g.
+when press "A" to start game
+_LABEL_27D9_
 set breakpoint all spots  here
+
 Run code on and press "A" on title screen to start
-code should break on "IO Port 1" input detection
+code should break on "Port_IOPort1" input detection
 step thru calls | you will see level screen being "built"
+Drawing the level
+_LABEL_1CFA_:	
+
+"Guess" level stored in RAM	at $C0E8
+i.e.
+_LABEL_1CE4_:	
+ld a, (_RAM_C0E8_)	; _RAM_C0E8_ = $C0E8
 just before this code:
 _LABEL_1CE4_:	
 	ld a, (_RAM_C0E8_)	; _RAM_C0E8_ = $C0E8
 
 Launch Memory map
 right click _RAM_C0E8_
-set watch point | F8 resume
-
-doing this will break into debugging code each time data in _RAM_C0E8_ changes
+Toggle watch point | F8 resume
+Doing this will break into debugging code each time data in _RAM_C0E8_ changes
 e.g.
 setting the level variable
 
+Confirm when code breaks at 
+_LABEL_1CE4_:	
+	ld a, (_RAM_C0E8_)	; _RAM_C0E8_ = $C0E8
+	
 hover over _RAM_C0E8_ and will be $01
 this $01 is second $01 above in _DATA_2C3_:	as this byte block starts at _RAM_C0E7_	
 	
