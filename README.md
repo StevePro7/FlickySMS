@@ -1,5 +1,49 @@
-# FlickySMS
+	# FlickySMS
 Flicky built for the SC-3000 and SG-1000 in 1984
+
+28/09/2020
+Today I (finally?) worked out how to reverse engineer Flicky Z80 asm source code
+and hack the start level for practice and number of lives on start
+
+e.g.
+original 
+_DATA_2C3_:	
+	.db $01 $01 $00 $00 $0C $80 $00 $02
+	
+start level 9 	$09
+start lives 7	$06		[out by one]
+_DATA_2C3_:	
+	.db $01 $09 $00 $00 $0C $80 $00 $06
+
+
+Q.
+How do I work this out?
+
+A.
+Open Flicky.sg using Emulicious emulator
+Debugging | dump out the disassembled Z80 asm code into notepad "Emulicious.asm"
+deubg | step thru code
+find "IO Port 1" reference 
+set breakpoint all spots  here
+Run code on and press "A" on title screen to start
+code should break on "IO Port 1" input detection
+step thru calls | you will see level screen being "built"
+just before this code:
+_LABEL_1CE4_:	
+	ld a, (_RAM_C0E8_)	; _RAM_C0E8_ = $C0E8
+
+Launch Memory map
+right click _RAM_C0E8_
+set watch point | F8 resume
+
+doing this will break into debugging code each time data in _RAM_C0E8_ changes
+e.g.
+setting the level variable
+
+hover over _RAM_C0E8_ and will be $01
+this $01 is second $01 above in _DATA_2C3_:	as this byte block starts at _RAM_C0E7_	
+	
+	
 
 27/09/2020
 Folder "02"
