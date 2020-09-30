@@ -1,5 +1,15 @@
-	# FlickySMS
+# FlickySMS
 Flicky built for the SC-3000 and SG-1000 in 1984
+
+30/09/2020
+http://www.retrogamingpower.co.uk/flicky/flicky.htm
+
+ROM
+http://www.get-your-rom.com/download/sg1k/flicky-rom/japan
+
+Piopio and Nyannyan
+https://strategywiki.org/wiki/Flicky
+
 
 28/09/2020
 Today I (finally?) worked out how to reverse engineer Flicky Z80 asm source code
@@ -15,6 +25,12 @@ start lives 7	$06		[out by one]
 _DATA_2C3_:	
 	.db $01 $09 $00 $00 $0C $80 $00 $06
 
+Address:
+02C3
+
+SUMMARY
+02C4		to hack what start level you'd like to practice
+02CA		to hack how many lives you'd like to have
 
 Q.
 How do I work this out?
