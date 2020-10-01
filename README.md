@@ -1,6 +1,10 @@
 # FlickySMS
 Flicky built for the SC-3000 and SG-1000 in 1984
 
+SUMMARY
+02C4		to hack what start level you'd like to practice
+02CA		to hack how many lives you'd like to have
+
 30/09/2020
 http://www.retrogamingpower.co.uk/flicky/flicky.htm
 
