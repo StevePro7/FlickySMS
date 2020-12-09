@@ -18,7 +18,7 @@ BANKS 2
 ;==============================================================
 ; SDSC tag and SMS rom header
 ;==============================================================
-.sdsctag 1.2,"Hello StevePro!","SMS programming tutorial program","Maxim"
+.sdsctag 1.2,"Hello World!","SMS programming tutorial program","Maxim"
 
 .bank 0 slot 0
 .org $0000
@@ -148,7 +148,7 @@ Loop:
 ;==============================================================
 
 Message:
-.dw $28,$45,$4c,$4c,$4f,$00,$37,$4f,$52,$4c,$44,$01
+.dw $28,$45,$4c,$4c,$4f,$00,$37,$4f,$52,$4c,$45,$01
 MessageEnd:
 
 PaletteData:
