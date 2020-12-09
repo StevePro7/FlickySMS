@@ -7,5 +7,5 @@ wla-z80.exe -o main.asm main.o
 
 wlalink -drvs linkfile output.sms
 
-::java -jar C:\SEGA\Emulicious\Emulicious.jar output.sms
-output.sms
+java -jar C:\SEGA\Emulicious\Emulicious.jar output.sms
+::output.sms
