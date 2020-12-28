@@ -6,6 +6,9 @@
     "linux": {
         "command": "./build.sh"
     },
+    "osx": {
+        "command": "./build.sh"
+    },
     "windows": {
         "command": "build.bat"
       },
